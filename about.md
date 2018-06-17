@@ -9,4 +9,4 @@ I plan to write about my projects/experiences in this blog.
 
 ### Contact me
 
-(swapnilbp100@gmail.com)
+[swapnilbp100@gmail.com](mailto:swapnilbp100@gmail.com)
