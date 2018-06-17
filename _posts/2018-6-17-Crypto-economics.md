@@ -2,9 +2,6 @@
 layout: post
 title: Crypto-Economics v1
 ---
-### *Disclaimer*: 
-I have intentionally refrained from using buzzwords like blockchain and crypto-currency, in order to broaden the scope of the article to all token-based crypto-networks in general.
-
 ### *Purpose*: 
 To enumerate on the basic dynamics and economics of crypto-networks and its pros and cons against legacy economic systems.
 
@@ -116,5 +113,8 @@ In spite of the usefulness of these technologies, it cannot be argued that they 
 
 ### Conclusion:
 Crypto-economics is increasingly looking like a viable solution to the growing scamming, spamming, dishonesty, and corruption as a result of the digital dark age that we are living in. The world is coming on the internet and so classical business models need to be revamped for network crimes by the anonymous. One way this can be accomplished is by the incentives of the crypto-networks. Without compromising the internet's biggest strength and weakness, its openness, the anti-social acts can be contained. Another major advantage is the distribution and democratization of wealth, rather than centralizing it into the hands of a few. While crypto-currencies may be the only really mainstream implementation of these crypto-networks, their real use lies in all kinds of other applications, to create economic sub-systems in the diverse areas of assets, currencies, and data. 
+
+### *Disclaimer*: 
+I have intentionally refrained from using buzzwords like blockchain and crypto-currency, in order to broaden the scope of the article to all token-based crypto-networks in general.
 
 This article has been titled v1 since several other articles will follow as my personal knowledge grows and the field advances. 
