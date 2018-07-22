@@ -118,3 +118,7 @@ Crypto-economics is increasingly looking like a viable solution to the growing s
 I have intentionally refrained from using buzzwords like blockchain and crypto-currency, in order to broaden the scope of the article to all token-based crypto-networks in general.
 
 This article has been titled v1 since several other articles will follow as my personal knowledge grows and the field advances. 
+
+### References:
+1) The Price and Value of Governance by Joel Monegro- Youtube
+2) Token-Curated Registries - Mike Goldin - Medium
