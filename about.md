@@ -4,8 +4,9 @@ title: About
 permalink: /about/
 ---
 
-Hi, I'm an tech undergraduate student and I love bleeding-edge technologies like AI and DLTs along with their impact on our current economic systems. 
-I plan to write about my projects/experiences in this blog.
+Hi, I'm a tech undergraduate student and love bleeding-edge technologies like AI and DLTs along with their impact on our current socio-economic systems. 
+
+Resume: [Drive](https://drive.google.com/file/d/1F-WLgRKSwN2MOEEh2PFtqseyuodFFft8/view?usp=sharing)
 
 ### Contact me
 
