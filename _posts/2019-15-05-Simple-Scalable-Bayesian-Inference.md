@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Walk In the World of VAEs- AN ESSAY
+title: Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles
 ---
  
 ## View of the world and the Challenge:
