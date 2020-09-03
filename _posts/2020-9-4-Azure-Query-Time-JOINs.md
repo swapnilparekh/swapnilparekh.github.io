@@ -1,6 +1,6 @@
 ---	
 layout: post	
-title: Solving Azure Query Time JOINs:
+title: Solving Azure Query Time JOINs
 ---	
 
 ## Problem Statement:
