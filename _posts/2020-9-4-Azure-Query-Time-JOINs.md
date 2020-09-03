@@ -1,9 +1,7 @@
 ---	
 layout: post	
-title: Azure Query Time JOINs
+title: Solving Azure Query Time JOINs:
 ---	
-
-# Solving Query Joins in Azure
 
 ## Problem Statement:
 In most real world use cases, there exist several relational dependencies between our datasources.
