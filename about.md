@@ -4,9 +4,9 @@ title: About
 permalink: /about/
 ---
 
-Hi, I'm a tech undergraduate student and love bleeding-edge technologies like AI and DLTs along with their impact on our current socio-economic systems. 
+Hi, I'm a tech undergrad and love bleeding-edge technologies like AI, NLP and DLTs along with their impact on our society.
 
-Resume: [Drive](https://drive.google.com/file/d/1F-WLgRKSwN2MOEEh2PFtqseyuodFFft8/view?usp=sharing)
+Resume: [Drive](https://drive.google.com/file/d/1wSGNPiThW21nXnz5CVgttSrgqKk8gMSZ/view?usp=sharing)
 
 ### Contact me
 
