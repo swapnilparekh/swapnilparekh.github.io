@@ -32,6 +32,8 @@ My research is on mechanistic interpretability, adversarial robustness, and agen
 
 | | |
 |---|---|
-| Chopin — Ballade No. 1 in G minor, Op. 23 | Beethoven — Piano Sonata No. 14 *"Moonlight"*, Op. 27 No. 2 |
-| Bach — The Well-Tempered Clavier, Book I | Ravel — Pavane pour une infante défunte |
-| Tchaikovsky — Piano Concerto No. 1 in B-flat minor, Op. 23 | |
+| Chopin — Ballade No. 1 in G minor, Op. 23 | Chopin — Nocturne in E-flat major, Op. 9 No. 2 |
+| Bach — The Well-Tempered Clavier, Book I | Bach — Goldberg Variations, BWV 988 |
+| Beethoven — Piano Sonata No. 14 *"Moonlight"*, Op. 27 No. 2 | Beethoven — Piano Sonata No. 23 *"Appassionata"*, Op. 57 |
+| Ravel — Pavane pour une infante défunte | Ravel — Gaspard de la nuit |
+| Tchaikovsky — Piano Concerto No. 1 in B-flat minor, Op. 23 | Schubert — Impromptu in G-flat major, Op. 90 No. 3 |
