@@ -1,25 +1,38 @@
+// ============================================================
+// PALETTE — Light / Clean
+// ============================================================
+$white:         #ffffff;
+$bg:            #f9f8f6;   // warm off-white body background
+$bg-secondary:  #f3f2ef;   // code blocks, blockquotes
+$text:          #1a1a2e;   // near-black body text (slightly navy)
+$text-muted:    #6b7280;   // dates, tags, secondary labels
+$accent:        #c49a3c;   // warm amber — single accent color
+$accent-hover:  #a07830;   // slightly deeper amber on hover
+$border:        #e5e3de;   // subtle warm border
 
-//
-// VARIABLES
-//
+// Legacy color names (used throughout style.scss — mapped for backward compat)
+$black:         #000;
+$darkerGray:    $text;
+$darkGray:      $text;
+$gray:          $text-muted;
+$lightGray:     $bg-secondary;
+$blue:          $accent;   // all $blue refs → amber accent
 
-// Colors
-$blue: #4183C4;
+// ============================================================
+// TYPOGRAPHY
+// ============================================================
+$font-sans:     'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+$font-serif:    Georgia, serif;
 
-// Grays
-$black: #000;
-$darkerGray: #222;
-$darkGray: #333;
-$gray: #666;
-$lightGray: #eee;
-$white: #fff;
+// Legacy font names
+$helvetica:     $font-sans;
+$helveticaNeue: $font-sans;
+$georgia:       $font-serif;
 
-// Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: Georgia, serif;
-
-// Mobile breakpoints
+// ============================================================
+// BREAKPOINTS
+// ============================================================
 @mixin mobile {
   @media screen and (max-width: 640px) {
     @content;
