@@ -1,27 +1,2919 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Swapnil Parekh — Concert Hall</title>
+  <meta name="description" content="AI Scientist — Mechanistic Interpretability, Adversarial Robustness, Agentic Systems">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --ivory:   #F5F0E8;
+      --ebony:   #0D0D0D;
+      --gold:    #C8933A;
+      --crimson: #8B1A1A;
+      --velvet:  #2A1F3D;
+      --slate:   #4A5568;
+      --mist:    #E8E4DC;
+      --deep:    #1A1025;
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+      --shadow:    4px 4px 0 var(--ebony);
+      --shadow-lg: 8px 8px 0 var(--ebony);
 
-      <div class="post-meta">
-        <span class="date">{{ post.date | date: "%B %-d, %Y" }}</span>
-        {% if post.tags %}
-          {% for tag in post.tags %}
-            <span class="tag-chip">{{ tag }}</span>
-          {% endfor %}
-        {% endif %}
-      </div>
+      --font-body:    'Space Grotesk', system-ui, sans-serif;
+      --font-mono:    'Space Mono', ui-monospace, monospace;
+      --hud-h:        48px;
+      --gutter:       clamp(16px, 5vw, 96px);
+    }
+    .dark {
+      --ivory:   #0D0D0D;
+      --ebony:   #F5F0E8;
+      --gold:    #D4A855;
+      --crimson: #C04040;
+      --velvet:  #3D2F5A;
+      --slate:   #A0AEC0;
+      --mist:    #1A1520;
+      --deep:    #F0ECE4;
+    }
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+    /* ============================================================
+       RESET / BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 100%; scroll-padding-top: calc(var(--hud-h) + 12px); }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+    body {
+      background: var(--ivory);
+      color: var(--ebony);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+    a { color: inherit; }
+    ::selection { background: var(--crimson); color: var(--ivory); }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .sr-only { clip: rect(0,0,0,0); white-space: nowrap; border: 0; width: 1px; height: 1px; margin: -1px; padding: 0; position: absolute; overflow: hidden; }
 
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
+    /* ============================================================
+       HUD (fixed top bar)
+    ============================================================ */
+    .hud {
+      position: fixed;
+      inset: 0 0 auto;
+      height: var(--hud-h);
+      background: var(--ivory);
+      border-bottom: 3px solid var(--ebony);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      z-index: 50;
+    }
+    .hud__row { display: flex; align-items: stretch; height: 100%; }
+    .hud__brand, .hud__item, .hud__toggle, .hud__link {
+      display: flex; align-items: center; gap: .4em;
+      padding: 0 14px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .hud__brand {
+      background: var(--ebony); color: var(--ivory);
+      font-weight: 700; font-size: 12px;
+      text-decoration: none; letter-spacing: .04em;
+    }
+    .hud__brand:hover { background: var(--crimson); }
+    .hud__item { border-right: 3px solid var(--ebony); font-size: 11px; }
+    .hud__spacer { flex: 1; }
+    .hud__toggle {
+      font: inherit; letter-spacing: inherit; color: inherit;
+      border: 0; border-left: 3px solid var(--ebony);
+      cursor: pointer; background: none;
+    }
+    .hud__toggle-state {
+      background: var(--ebony); color: var(--ivory);
+      min-width: 3ch; padding: 3px 6px;
+      display: inline-block;
+    }
+    .hud__toggle[aria-pressed="true"] .hud__toggle-state { background: var(--gold); color: var(--ebony); }
+    .hud__toggle:hover .hud__toggle-state { background: var(--crimson); color: var(--ivory); }
+    .hud__link { border-left: 3px solid var(--ebony); text-decoration: none; }
+    .hud__link:hover { background: var(--crimson); color: var(--ivory); text-decoration: none; }
+    .hud__note { font-size: 10px; color: var(--slate); font-family: var(--font-mono); }
+    .when-night { display: none; }
+    .dark .when-night { display: inline; }
+    .dark .when-day { display: none; }
+    .hud__narrow { display: none; }
+    @media (max-width: 767px) {
+      .hud .hud__wide { display: none; }
+      .hud .hud__narrow { border-right: 0; flex: 1; display: flex; }
+      .hud .hud__spacer { display: none; }
+    }
+    @media (max-width: 1100px) and (min-width: 768px) {
+      .hud__item:nth-child(2) { display: none; }
+    }
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read more &rarr;</a>
-    </article>
-  {% endfor %}
+    /* ============================================================
+       PROGRAMME MAP (right-side nav — like trail-map)
+    ============================================================ */
+    .programme-map {
+      position: fixed;
+      top: calc(var(--hud-h) + 56px);
+      right: 24px;
+      bottom: 56px;
+      width: 30px;
+      z-index: 40;
+      display: none;
+    }
+    @media (min-width: 1024px) { .programme-map { display: block; } }
+    .programme-map::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      margin-left: -1.5px;
+      width: 3px;
+      background: var(--ebony);
+    }
+    .programme-map__list { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+    .programme-map__stop { position: absolute; left: 50%; transform: translate(-50%, -50%); }
+    .programme-map__link { display: flex; align-items: center; position: relative; text-decoration: none; }
+    .programme-map__plate {
+      min-width: 28px; height: 28px;
+      background: var(--mist);
+      border: 3px solid var(--ebony);
+      display: grid; place-items: center;
+      padding: 0 3px;
+    }
+    .programme-map__label {
+      position: absolute;
+      right: calc(100% + 12px);
+      background: var(--ebony); color: var(--ivory);
+      font-family: var(--font-mono); font-size: 11px;
+      padding: 5px 7px;
+      white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity .15s, transform .15s;
+      transform: translate(6px);
+    }
+    .programme-map__link:hover .programme-map__label,
+    .programme-map__link:focus-visible .programme-map__label { opacity: 1; transform: none; }
+    .programme-map__link[aria-current] .programme-map__plate { box-shadow: 3px 3px 0 var(--gold); }
+    .programme-map__dot {
+      position: absolute;
+      top: 0; left: 50%;
+      width: 14px; height: 14px;
+      margin: -7px 0 0 -7px;
+      background: var(--gold);
+      border: 3px solid var(--ebony);
+      z-index: 2;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       PIXEL CANVAS (fixed — full viewport, visible in stage bridges)
+    ============================================================ */
+    #pixel-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 10;   /* above content, bridges, and nav — pointer-events none so clicks pass through */
+      pointer-events: none;
+      image-rendering: pixelated;
+      opacity: .92;
+    }
+
+    /* ============================================================
+       STAGE BRIDGES — transparent corridors between content sections
+       where the fixed canvas (pianist) shows through
+    ============================================================ */
+    .stage-bridge {
+      position: relative;
+      z-index: 1;
+      height: 280px;
+      background: transparent;  /* canvas draws the dark stage bg */
+      border-top: 3px solid var(--ebony);
+      border-bottom: 3px solid var(--ebony);
+      overflow: visible;  /* don't clip canvas pixels */
+    }
+    .dark .stage-bridge { background-color: transparent; }
+    .stage-bridge__label {
+      position: absolute;
+      bottom: 18px; left: var(--gutter);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: rgba(200,147,58,0.45);
+      letter-spacing: .1em;
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    .concert { position: relative; z-index: 2; }
+    .movement {
+      position: relative;
+      z-index: 2;
+      background: var(--ivory);
+    }
+    .foyer { position: relative; z-index: 2; background: var(--ivory); }
+    .c-container {
+      width: 100%;
+      max-width: min(1040px, calc(100% - var(--gutter) * 2));
+      padding-inline: var(--gutter);
+      margin-inline: auto;
+    }
+    .c-measure {
+      max-width: min(760px, calc(100% - var(--gutter) * 2));
+      margin-inline: auto;
+    }
+
+    /* ============================================================
+       FOYER (hero — like summit)
+    ============================================================ */
+    .foyer {
+      --p: 0;
+      height: 220svh;
+      position: relative;
+    }
+    .foyer__pin {
+      height: 100svh;
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+    }
+    .foyer__inner {
+      height: 100%;
+      padding-top: calc(var(--hud-h) + 20px);
+      padding-bottom: 96px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative;
+    }
+    .ticket {
+      --out: min(1, calc(var(--p) * 2.2));
+      background: var(--ivory);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      font-family: var(--font-mono);
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      grid-template-rows: auto auto;
+      column-gap: 14px;
+      align-items: end;
+      align-self: flex-start;
+      padding: 10px 16px 12px;
+      margin-bottom: clamp(18px, 4vh, 40px);
+      transform: translateX(calc(var(--out) * -1 * (100% + var(--gutter) + 24px))) rotate(-2deg);
+      will-change: transform;
+    }
+    .ticket__label { grid-column: 1; font-size: 11px; }
+    .ticket__num {
+      grid-area: 2 / 1;
+      color: var(--gold);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 700;
+      line-height: .9;
+    }
+    .ticket__meta {
+      grid-area: 1 / 2 / span 2;
+      border-left: 3px solid var(--ebony);
+      padding-left: 14px;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+    .foyer__name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(3.5rem, 11.5vw, 11rem);
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+      line-height: .84;
+      margin: 0;
+      transform: translateY(calc(var(--p) * -12vh)) scale(calc(1 - .15 * var(--p)));
+      will-change: transform;
+    }
+    .foyer__line { display: block; }
+    .sticker {
+      font-family: var(--font-mono);
+      letter-spacing: .04em;
+      vertical-align: top;
+      background: var(--crimson);
+      color: var(--ivory);
+      border: 3px solid var(--ebony);
+      box-shadow: 4px 4px 0 var(--ebony);
+      padding: .45em .7em .4em;
+      font-size: clamp(.8rem, 1.5vw, 1.35rem);
+      font-weight: 700;
+      line-height: 1;
+      margin: .35em 0 0 .2em;
+      transform: rotate(-4deg);
+      display: inline-block;
+    }
+    .foyer__line + .sticker {
+      display: block;
+      z-index: 1;
+      position: relative;
+      width: max-content;
+      margin: -.25em 0 .15em .1em;
+    }
+    .foyer__desc {
+      background: var(--ivory);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      max-width: 44ch;
+      padding: 12px 16px;
+      font-size: clamp(1rem, 1.3vw, 1.2rem);
+      font-weight: 500;
+      line-height: 1.4;
+      align-self: flex-start;
+      margin: clamp(22px, 4vh, 40px) 0 0;
+      opacity: calc(1 - var(--p) * 2.5);
+    }
+    .foyer__drop {
+      position: absolute;
+      bottom: 28px;
+      left: var(--gutter);
+      font-family: var(--font-mono);
+      background: var(--ebony); color: var(--ivory);
+      padding: 8px 12px; font-size: 14px;
+      opacity: calc(1 - var(--p) * 8);
+      margin: 0;
+    }
+    .now-playing {
+      position: fixed;
+      bottom: 28px;
+      right: var(--gutter);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: var(--ivory);
+      border: 2px solid var(--ebony);
+      padding: 6px 10px;
+      opacity: 0;
+      transition: opacity .5s;
+      max-width: 260px;
+      z-index: 55;
+    }
+    .now-playing.visible { opacity: 1; }
+    .now-playing__label { color: var(--slate); margin-bottom: 2px; }
+    .now-playing__title { font-weight: 700; font-size: 11px; }
+    .now-playing__bar { margin-top: 6px; height: 3px; background: var(--ebony); position: relative; }
+    .now-playing__progress {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      background: var(--gold);
+      transition: width .3s linear;
+    }
+
+    /* ============================================================
+       BRUT CARD / BTN
+    ============================================================ */
+    .brut-card {
+      background: var(--ivory);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      transition: transform .14s ease-out, box-shadow .14s ease-out;
+    }
+    .brut-card:hover { box-shadow: var(--shadow-lg); transform: translate(-3px, -3px); }
+    .brut-btn {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      background: var(--ivory); color: var(--ebony);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 13px 16px 12px;
+      font-size: 13px; line-height: 1;
+      text-decoration: none;
+      transition: transform .12s ease-out, box-shadow .12s ease-out;
+    }
+    .brut-btn:hover { box-shadow: var(--shadow-lg); transform: translate(-3px, -3px); }
+    .brut-btn:active { box-shadow: 0 0 0 var(--ebony); transform: translate(6px, 6px); }
+    .brut-btn--gold { background: var(--gold); color: var(--ebony); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .chip {
+      font-family: var(--font-mono); text-transform: uppercase;
+      background: var(--mist); color: var(--ebony);
+      border: 2px solid var(--ebony);
+      box-shadow: 2px 2px 0 var(--ebony);
+      padding: 5px 8px 4px; font-size: 11px; line-height: 1.1;
+    }
+    .chip--ebony { background: var(--ebony); color: var(--ivory); }
+    .blink { animation: 1s step-end infinite blink-anim; }
+    @keyframes blink-anim { 50% { opacity: 0; } }
+
+    /* ============================================================
+       MOVEMENT SECTIONS
+    ============================================================ */
+    .movement {
+      padding-block: clamp(96px, 16vh, 180px);
+      position: relative;
+    }
+    .mov-head {
+      display: flex; align-items: center;
+      gap: clamp(14px, 2vw, 22px);
+      margin-bottom: clamp(32px, 6vh, 64px);
+    }
+    .mov-head__plate {
+      background: var(--mist);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      display: grid; place-items: center;
+      padding: 10px; flex: none;
+    }
+    .mov-head__kicker {
+      font-family: var(--font-mono);
+      letter-spacing: .04em;
+      margin: 0 0 6px;
+      font-size: 12px;
+    }
+    .mov-head__title {
+      font-family: var(--font-body);
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      margin: 0;
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: .88;
+    }
+
+    /* ============================================================
+       PROGRAMME (intro / like "The Line")
+    ============================================================ */
+    .line-text {
+      --r: 1;
+      letter-spacing: -.01em;
+      margin: 0 0 clamp(28px, 5vh, 48px);
+      font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.22;
+    }
+    .w { opacity: calc(.25 + .75 * clamp(0, var(--r) * (var(--n) + 8) - var(--i), 1)); }
+    .line-loc {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 10px;
+      margin: 0 0 24px; font-weight: 600;
+    }
+    .line-loc a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+    .line-loc__tag {
+      font-family: var(--font-mono);
+      background: var(--ebony); color: var(--ivory);
+      padding: 4px 6px 3px; font-size: 11px;
+    }
+    .contact-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 0; padding: 0; list-style: none; }
+
+    /* ============================================================
+       PERFORMANCES (job cards — full-width, accent border)
+    ============================================================ */
+    .performances {
+      margin: 0; padding: 0; list-style: none;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .perf {
+      border-left: 6px solid var(--perf-color, var(--gold));
+    }
+    .perf--gold    { --perf-color: var(--gold);    --perf-on: var(--ebony); }
+    .perf--crimson { --perf-color: var(--crimson); --perf-on: var(--ivory); }
+    .perf--velvet  { --perf-color: var(--velvet);  --perf-on: var(--ivory); }
+    .perf__staff   { display: none; }          /* removed — no longer used */
+    .perf__card    { position: relative; }
+    .perf__strip {
+      font-family: var(--font-mono);
+      background: var(--perf-color, var(--gold));
+      color: var(--perf-on, var(--ebony));
+      border-bottom: 3px solid var(--ebony);
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 9px 14px 8px; font-size: 12px;
+    }
+    .perf__body {
+      padding: clamp(12px, 1.5vw, 18px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+      gap: 0 clamp(16px, 2.5vw, 32px);
+      align-items: start;
+    }
+    .perf__left  { grid-column: 1; }
+    .perf__right { grid-column: 2; }
+    .perf__head {
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between; align-items: flex-start;
+      gap: 6px;
+    }
+    .perf__company {
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      margin: 0;
+      font-size: clamp(1.2rem, 2.2vw, 2rem);
+      line-height: .95;
+      overflow-wrap: break-word;
+    }
+    .perf__company a { text-decoration: none; }
+    .perf__company a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-decoration-color: var(--perf-color, var(--gold)); }
+    .perf__title { margin: 6px 0 8px; font-weight: 600; font-size: .85rem; }
+    .perf__piece {
+      font-family: var(--font-mono);
+      font-size: 10px; font-style: italic;
+      color: var(--slate);
+      margin: 0 0 10px;
+    }
+    .perf__points { margin: 0 0 12px; padding: 0; list-style: none; line-height: 1.5; font-size: .84rem; }
+    .perf__points li { padding-left: 16px; position: relative; }
+    .perf__points li + li { margin-top: 6px; }
+    .perf__points li::before {
+      content: '';
+      position: absolute;
+      top: .55em; left: 0;
+      width: 6px; height: 6px;
+      background: var(--perf-color, var(--gold));
+    }
+    .live {
+      font-family: var(--font-mono);
+      border: 2px solid var(--ebony);
+      background: var(--ivory);
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 7px 3px; font-size: 11px;
+    }
+    .live i { background: var(--gold); width: 8px; height: 8px; animation: 1.1s step-end infinite blink-anim; }
+
+    /* ============================================================
+       COMPOSITIONS (papers — like "Off-Piste")
+    ============================================================ */
+    .compositions { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 4vw, 44px); }
+
+    /* Chopin quote */
+    .chopin-quote {
+      border-left: 5px solid var(--gold);
+      background: var(--mist);
+      padding: clamp(16px, 2.5vw, 28px) clamp(16px, 2.5vw, 28px);
+      margin: 0 0 clamp(28px, 4vw, 48px);
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .chopin-quote p { margin: 0 0 10px; }
+    .chopin-quote cite {
+      font-family: var(--font-mono);
+      font-style: normal;
+      font-size: 12px;
+      letter-spacing: .06em;
+      color: var(--slate);
+    }
+
+    /* Research areas grid */
+    .research-areas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0 0 clamp(28px, 4vw, 44px);
+    }
+    @media (max-width: 680px) {
+      .research-areas { grid-template-columns: 1fr; }
+    }
+    .research-area {
+      border: 3px solid var(--ebony);
+      padding: 14px 16px 16px;
+      box-shadow: 4px 4px 0 var(--ebony);
+    }
+    .research-area__label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      font-weight: 700;
+      background: var(--ebony);
+      color: var(--ivory);
+      display: inline-block;
+      padding: 3px 7px 2px;
+      margin: 0 0 10px;
+    }
+    .research-area__desc {
+      font-size: .875rem;
+      line-height: 1.55;
+      margin: 0;
+      color: var(--slate);
+    }
+
+    /* Foyer sub-line */
+    .foyer__sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--slate);
+      margin-top: 8px;
+      opacity: .75;
+    }
+
+    /* ============================================================
+       LINER NOTES (writing / blog posts)
+    ============================================================ */
+    .liner-notes { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 32px); }
+    .liner {
+      box-shadow: 8px 8px 0 var(--ebony);
+    }
+    .liner:hover { box-shadow: 11px 11px 0 var(--ebony); }
+    .liner__bar {
+      font-family: var(--font-mono);
+      background: var(--velvet); color: var(--ivory);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+      padding: 10px 16px 9px; font-size: 12px;
+    }
+    .liner__tag { opacity: .75; }
+    .liner__body { padding: clamp(14px, 2vw, 22px); }
+    .liner__title {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 10px;
+    }
+    .liner__title a { text-decoration: none; }
+    .liner__title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-decoration-color: var(--gold); }
+    .liner__desc {
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--slate);
+      margin: 0 0 14px;
+    }
+    .composition {
+      box-shadow: 10px 10px 0 var(--ebony);
+    }
+    .composition:hover { box-shadow: 13px 13px 0 var(--ebony); }
+    .composition__bar {
+      font-family: var(--font-mono);
+      background: var(--ebony); color: var(--ivory);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+      padding: 10px 16px 9px; font-size: 12px;
+    }
+    .composition__venue { border-left: 2px solid var(--ivory); margin-left: 10px; padding-left: 10px; }
+    .composition__body { padding: clamp(20px, 3vw, 36px); }
+    .composition__title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+      font-size: clamp(1.1rem, 3.5vw, 2.2rem);
+      line-height: .92;
+      overflow-wrap: break-word;
+    }
+    .composition__desc { max-width: 62ch; margin: 0 0 20px; font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.55; }
+    .composition .chips { margin-bottom: 22px; }
+
+    /* ============================================================
+       REPERTOIRE (skills — like "Gear Check")
+    ============================================================ */
+    .score-board {
+      background: var(--mist);
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      padding: clamp(20px, 3vw, 36px);
+      position: relative;
+    }
+    .score-board__spec {
+      font-family: var(--font-mono);
+      border-bottom: 3px dashed var(--ebony);
+      display: flex; flex-wrap: wrap; gap: 8px 18px;
+      margin: 0 0 22px; padding-bottom: 12px; font-size: 11px;
+    }
+    .keys { display: flex; flex-wrap: wrap; gap: 16px 14px; margin: 0; padding: 0; list-style: none; }
+    .key {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      border: 3px solid var(--ebony);
+      box-shadow: 4px 4px 0 var(--ebony);
+      padding: 10px 13px 9px;
+      font-size: clamp(12px, 1.1vw, 14px);
+      line-height: 1.1;
+      transform: rotate(var(--rot, 0deg));
+      cursor: default;
+      transition: transform .16s cubic-bezier(.3, 1.6, .5, 1), box-shadow .16s;
+    }
+    .key:hover { box-shadow: 6px 8px 0 var(--ebony); transform: translateY(-6px) rotate(0deg); }
+    .key--ivory { background: var(--ivory); color: var(--ebony); }
+    .key--mist  { background: var(--mist);  color: var(--ebony); }
+    .key--gold  { background: var(--gold);  color: var(--ebony); }
+    .key--crimson { background: var(--crimson); color: var(--ivory); }
+    .key--ebony { background: var(--ebony); color: var(--ivory); }
+
+    /* ============================================================
+       AWARDS (podium)
+    ============================================================ */
+    .podium__kicker { font-family: var(--font-mono); letter-spacing: .04em; margin: 0 0 16px; font-size: 12px; }
+    .podium {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: end;
+      margin: 0 0 clamp(40px, 7vh, 72px);
+      padding: 0; list-style: none;
+      filter: drop-shadow(6px 6px 0 var(--ebony));
+    }
+    .podium__step {
+      min-height: calc(172px + (2 - var(--step)) * 44px);
+      background: var(--ivory);
+      border: 3px solid var(--ebony);
+      display: flex; flex-direction: column;
+    }
+    .podium__step + .podium__step { margin-left: -3px; }
+    .podium__step--gold   { --tone: var(--gold);    --on-tone: var(--ebony); }
+    .podium__step--silver { --tone: var(--slate);   --on-tone: var(--ivory); }
+    .podium__step--bronze { --tone: var(--crimson); --on-tone: var(--ivory); }
+    .podium__strip {
+      font-family: var(--font-mono);
+      background: var(--tone, var(--ebony));
+      color: var(--on-tone, var(--ivory));
+      border-bottom: 3px solid var(--ebony);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px;
+      padding: 9px 12px 8px; font-size: 12px; margin: 0;
+    }
+    .podium__body {
+      display: flex; flex-direction: column; flex: 1;
+      justify-content: space-between; gap: 14px;
+      padding: clamp(14px, 1.6vw, 20px);
+    }
+    .podium__title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+      overflow-wrap: break-word;
+      margin: 0;
+      font-size: clamp(1rem, 1.45vw, 1.3rem);
+      line-height: 1.02;
+    }
+    .podium__issuer { font-family: var(--font-mono); text-transform: uppercase; margin: 0; font-size: 11px; line-height: 1.35; }
+
+    /* ============================================================
+       FINALE TABLE (like scoreboard / "Finish")
+    ============================================================ */
+    .finale-line { height: 160px; margin-top: 8px; }
+    .board-wrap {
+      border: 3px solid var(--ebony);
+      box-shadow: var(--shadow);
+      background: #05070a;
+    }
+    .board { border-collapse: collapse; width: 100%; font-family: var(--font-mono); color: #a9dbff; background: #05070a; font-size: clamp(11px, 1.1vw, 14px); }
+    .board__cap {
+      font-size: 12px; font-family: var(--font-mono);
+      color: #05070a; background: var(--gold);
+      border-bottom: 3px solid #05070a;
+      display: flex; justify-content: space-between; gap: 10px;
+      padding: 12px 16px;
+    }
+    .board th { text-align: left; color: #6f86a3; padding: 12px 16px 8px; font-size: 10px; font-weight: 400; }
+    .board td { vertical-align: top; border-top: 2px dashed #1b2b3f; padding: 12px 16px; }
+    .board__split { white-space: nowrap; color: #6f86a3; width: 1%; }
+    .board__who { color: #e9eef3; text-transform: uppercase; }
+    .board__detail { text-transform: none; color: #6f86a3; margin-top: 6px; font-size: .82em; display: block; }
+    .board__time { white-space: nowrap; text-align: right; color: var(--gold); width: 1%; }
+
+    /* Education cards */
+    .edu { display: grid; gap: 20px; }
+    @media (min-width: 640px) { .edu { grid-template-columns: 1fr 1fr; } }
+    .edu__card { padding: 18px 20px 20px; }
+    .edu__years { font-family: var(--font-mono); background: var(--ebony); color: var(--ivory); margin: 0 0 12px; padding: 4px 6px 3px; font-size: 11px; display: inline-block; }
+    .edu__degree { margin: 0 0 6px; font-size: 1.12rem; font-weight: 600; line-height: 1.3; }
+    .edu__school { margin: 0; font-size: .95rem; }
+
+    /* CTA */
+    .cta { margin-top: clamp(72px, 12vh, 140px); }
+    .cta__kicker { font-family: var(--font-mono); margin: 0 0 18px; font-size: 12px; }
+    .say-hi {
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      background: var(--crimson); color: var(--ivory);
+      border: 3px solid var(--ebony);
+      box-shadow: 10px 10px 0 var(--ebony);
+      display: inline-block;
+      padding: .12em .35em .08em;
+      font-size: clamp(2.6rem, 8vw, 7rem);
+      line-height: 1;
+      text-decoration: none;
+      transition: transform .12s ease-out, box-shadow .12s ease-out;
+      margin-bottom: 36px;
+    }
+    .say-hi:hover { box-shadow: 13px 13px 0 var(--ebony); transform: translate(-3px, -3px); }
+    .say-hi:active { box-shadow: 0 0 0 var(--ebony); transform: translate(10px, 10px); }
+
+    /* Footer */
+    .c-footer {
+      position: relative; z-index: 2;
+      border-top: 3px solid var(--ebony);
+      background: var(--ivory);
+    }
+    .c-footer__row {
+      font-family: var(--font-mono);
+      display: flex; flex-wrap: wrap; gap: 8px 12px;
+      padding-block: 22px; font-size: 11px;
+    }
+    .c-footer a { text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Reveal animations */
+    [data-fx="on"] [data-reveal]:not([data-revealed]) { opacity: 0; }
+    [data-fx="on"] [data-reveal][data-revealed] { animation: .6s cubic-bezier(.2, .9, .25, 1) backwards drop-in; }
+    [data-fx="on"] .perf__card[data-revealed]  { animation: drop-in .65s backwards cubic-bezier(.2, .9, .25, 1); }
+    @keyframes drop-in { from { opacity: 0; transform: translateY(28px); } }
+    @keyframes flag-left  { from { opacity: 0; transform: translate(-72px) rotate(-3deg); } }
+    @keyframes flag-right { from { opacity: 0; transform: translate(72px)  rotate(3deg);  } }
+
+    @media (max-width: 767px) {
+      .movement { padding-block: 88px; }
+      .foyer__inner { padding-top: calc(var(--hud-h) + 28px); justify-content: flex-start; }
+      .perf__body { grid-template-columns: 1fr; }
+      .perf__right { grid-column: 1; }
+      .board th, .board td { padding-inline: 10px; }
+      .board__split, .board__cap span:last-child { display: none; }
+      .podium { grid-template-columns: minmax(0, 1fr); }
+      .podium__step { min-height: 0; }
+      .podium__step + .podium__step { margin: -3px 0 0; margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .foyer { height: auto; }
+      .foyer__pin { position: relative; }
+      .foyer__name, .ticket { transform: none; }
+      .foyer__desc { opacity: 1; }
+      .foyer__drop { opacity: 1; }
+      .w { opacity: 1; }
+      .blink, .live i { animation: none; }
+      [data-fx="on"] [data-reveal]:not([data-revealed]) { opacity: 1; }
+      [data-fx="on"] [data-reveal][data-revealed],
+      [data-fx="on"] .perf__card[data-revealed] { animation: none; }
+      .brut-card, .brut-btn, .key, .say-hi { transition: none; }
+    }
+  </style>
+</head>
+<body id="body-root">
+
+<!-- ============================================================
+     HUD
+============================================================ -->
+<header class="hud" role="banner">
+  <div class="hud__row">
+    <a class="hud__brand" href="/">SP</a>
+    <div class="hud__item hud__wide">
+      <span>♩</span>
+      <span id="hud-piece">—</span>
+    </div>
+    <div class="hud__item hud__wide">
+      <span>TEMPO</span>
+      <span id="hud-tempo">—</span>
+    </div>
+    <div class="hud__item hud__wide">
+      <span>MEASURE</span>
+      <span id="hud-measure">—</span>
+    </div>
+    <div class="hud__item hud__narrow">SWAPNIL PAREKH</div>
+    <div class="hud__spacer"></div>
+    <button class="hud__toggle" aria-pressed="false" id="night-toggle" title="Toggle night mode">
+      NIGHT&nbsp;<span class="hud__toggle-state when-day">OFF</span><span class="hud__toggle-state when-night">ON</span>
+    </button>
+    <button class="hud__toggle" aria-pressed="false" id="audio-toggle" title="Toggle audio">
+      AUDIO&nbsp;<span class="hud__toggle-state" id="audio-state">OFF</span>
+    </button>
+    <a class="hud__link hud__wide" href="/assets/SwapnilParekh_Resume-9.pdf" target="_blank" rel="noopener">
+      ↓ CV PDF
+    </a>
+  </div>
+</header>
+
+<!-- Programme map -->
+<nav class="programme-map" aria-label="Programme navigation">
+  <ol class="programme-map__list" id="programme-stops">
+    <!-- filled by JS -->
+  </ol>
+  <div class="programme-map__dot" id="programme-dot"></div>
+</nav>
+
+<!-- Pixel canvas -->
+<canvas id="pixel-canvas" aria-hidden="true"></canvas>
+
+<!-- Now-playing overlay -->
+<div class="now-playing" id="now-playing" aria-live="polite">
+  <div class="now-playing__label">♩ NOW PLAYING</div>
+  <div class="now-playing__title" id="np-title">—</div>
+  <div class="now-playing__bar"><div class="now-playing__progress" id="np-progress" style="width:0%"></div></div>
 </div>
+
+<!-- ============================================================
+     MAIN
+============================================================ -->
+<main id="main-content" class="concert" data-fx="on">
+
+  <!-- FOYER -------------------------------------------------- -->
+  <section class="foyer" id="foyer" aria-label="Foyer">
+    <div class="foyer__pin">
+      <div class="foyer__inner c-container">
+        <div class="ticket" role="img" aria-label="Concert ticket No. 01">
+          <span class="ticket__label">TICKET</span>
+          <span class="ticket__num">01</span>
+          <span class="ticket__meta">CONCERT: THE PAREKH<br>VENUE · GRAND HALL</span>
+        </div>
+        <h1 class="foyer__name" id="foyer-name">
+          <span class="foyer__line">SWAPNIL</span>
+          <span class="sticker" aria-hidden="true">AI SCIENTIST</span>
+          <span class="foyer__line">PAREKH</span>
+        </h1>
+        <p class="foyer__desc">
+          I'm an AI Scientist at Intuit working on multi-agentic LLM systems, RAG, and
+          alignment problems in high-stakes financial contexts. Before Intuit I was at
+          IBM Research on the watsonx.ai inference engine, and before that I did an MS
+          at NYU. I shipped the first MCP implementation at Intuit as part of the
+          Intuit × Anthropic partnership. 80+ citations · Open Source @vLLM · Kaggle Expert.
+        </p>
+        <p class="foyer__sub" aria-hidden="true">
+          Mechanistic Interpretability · Adversarial Robustness · Agentic Systems
+        </p>
+        <p class="foyer__drop" aria-hidden="true">TAKE YOUR SEAT ↓</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDGE: FOYER → PROGRAMME -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT I — PRELUDE</span>
+  </div>
+
+  <!-- PROGRAMME (intro) -------------------------------------- -->
+  <section class="movement" id="programme" aria-labelledby="programme-title">
+    <div class="c-container c-measure">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="3"/><line x1="14" y1="4" x2="14" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <p class="mov-head__kicker">GRAND CIRCLE · OVERVIEW</p>
+          <h2 class="mov-head__title" id="programme-title">PROGRAMME</h2>
+        </div>
+      </div>
+
+      <p class="line-text" data-reveal>
+        <span class="w" style="--i:0;--n:0">I</span><span class="w" style="--i:1;--n:1"> build</span>
+        <span class="w" style="--i:2;--n:2"> agentic</span><span class="w" style="--i:3;--n:3"> LLM</span>
+        <span class="w" style="--i:4;--n:4"> systems</span><span class="w" style="--i:5;--n:5"> and</span>
+        <span class="w" style="--i:6;--n:6"> research</span><span class="w" style="--i:7;--n:7"> why</span>
+        <span class="w" style="--i:8;--n:8"> models</span><span class="w" style="--i:9;--n:9"> behave</span>
+        <span class="w" style="--i:10;--n:10"> the</span><span class="w" style="--i:11;--n:11"> way</span>
+        <span class="w" style="--i:12;--n:12"> they</span><span class="w" style="--i:13;--n:13"> do</span><span class="w" style="--i:14;--n:14"> —</span>
+        <span class="w" style="--i:15;--n:15"> and</span><span class="w" style="--i:16;--n:16"> what</span>
+        <span class="w" style="--i:17;--n:17"> it</span><span class="w" style="--i:18;--n:18"> takes</span>
+        <span class="w" style="--i:19;--n:19"> to</span><span class="w" style="--i:20;--n:20"> break</span>
+        <span class="w" style="--i:21;--n:21"> them.</span>
+      </p>
+
+      <blockquote class="chopin-quote" data-reveal>
+        <p>"Simplicity is the final achievement. After one has played a vast quantity of notes and more notes, it is simplicity that emerges as the crowning reward of art."</p>
+        <cite>— Frédéric Chopin</cite>
+      </blockquote>
+
+      <div class="research-areas" data-reveal>
+        <div class="research-area">
+          <p class="research-area__label">MECHANISTIC INTERPRETABILITY</p>
+          <p class="research-area__desc">Circuit-level analysis of transformer models — understanding which components encode which behaviors, and making that analysis reproducible and uncertainty-aware.</p>
+        </div>
+        <div class="research-area">
+          <p class="research-area__label">ADVERSARIAL ROBUSTNESS</p>
+          <p class="research-area__desc">Universal adversarial triggers, attack transferability under model compression, and multimodal safety. Interested in the gap between empirical robustness claims and real-world deployment.</p>
+        </div>
+        <div class="research-area">
+          <p class="research-area__label">AGENTIC &amp; LATENT REASONING</p>
+          <p class="research-area__desc">Backdoor attacks on chain-of-thought and latent reasoning models, steering and safety for systems that reason in ways we can't directly observe.</p>
+        </div>
+      </div>
+
+      <div class="line-loc" data-reveal>
+        <span class="line-loc__tag">AI SCIENTIST</span>
+        <span>Mountain View, CA</span>
+        <span>·</span>
+        <a href="https://scholar.google.com/citations?user=Kg63DSwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        <span>·</span>
+        <a href="https://github.com/SwapnilDreams100" target="_blank" rel="noopener">GitHub</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/swapnil-parekh" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+
+      <ul class="contact-row" data-reveal>
+        <li><a class="brut-btn brut-btn--gold" href="mailto:swapnilbp100@gmail.com">✉ EMAIL</a></li>
+        <li><a class="brut-btn" href="/assets/SwapnilParekh_Resume-9.pdf" target="_blank" rel="noopener">↓ RESUME PDF</a></li>
+        <li><a class="brut-btn" href="/about">ABOUT</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BRIDGE: PROGRAMME → PERFORMANCES -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT II — MAIN STAGE</span>
+  </div>
+
+  <!-- PERFORMANCES (work) ------------------------------------ -->
+  <section class="movement" id="performances" aria-labelledby="performances-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="18" width="20" height="6" stroke="currentColor" stroke-width="3"/><line x1="9" y1="4" x2="9" y2="18" stroke="currentColor" stroke-width="3"/><line x1="14" y1="8" x2="14" y2="18" stroke="currentColor" stroke-width="3"/><line x1="19" y1="11" x2="19" y2="18" stroke="currentColor" stroke-width="3"/></svg>
+        </div>
+        <div>
+          <p class="mov-head__kicker">MAIN STAGE · EXPERIENCE</p>
+          <h2 class="mov-head__title" id="performances-title">PERFORMANCES</h2>
+        </div>
+      </div>
+
+      <ol class="performances" aria-label="Work experience">
+
+        <!-- Intuit -->
+        <li class="perf perf--gold brut-card" data-job="intuit">
+          <div class="perf__card" data-reveal>
+            <div class="perf__strip">
+              <span>GATE 01</span>
+              <span>2024 — NOW</span>
+            </div>
+            <div class="perf__body">
+              <div class="perf__left">
+                <div class="perf__head">
+                  <h3 class="perf__company"><a href="https://www.intuit.com" target="_blank" rel="noopener">INTUIT</a></h3>
+                  <span class="live"><i></i> LIVE</span>
+                </div>
+                <p class="perf__title">Senior AI Scientist, Expert AI Science · Mountain View, CA · Oct 2024 – Present</p>
+                <p class="perf__piece">♩ Chopin — Ballade No. 1 in G minor, Op. 23 &nbsp;·&nbsp; Nocturne in E-flat, Op. 9 No. 2</p>
+                <ul class="chips">
+                  <li class="chip">PyTorch</li><li class="chip">LangGraph</li><li class="chip">MCP</li>
+                  <li class="chip">RAG</li><li class="chip">vLLM</li><li class="chip">GRPO/RLVR</li>
+                </ul>
+              </div>
+              <div class="perf__right">
+                <ul class="perf__points">
+                  <li>Architected <strong>Intuit Assist</strong> (Patented): secure multi-agentic LLM system with RAG + finetuned SLM tool calling for tax Q&amp;A and automated resolution across TurboTax, QuickBooks, and Credit Karma.</li>
+                  <li>Designed and shipped the <strong>first MCP implementation at Intuit</strong> — now core to the Intuit × Anthropic partnership. Serves 100M+ customers; reduced customer serving time by 30%, increased response rate by 40%.</li>
+                  <li>Shipped product recommendation engine using deep-learning <strong>twin-tower architecture</strong> (multimillion-dollar upsell conversions). Built sales pitching agent with constrained-decoding guardrails and GRPO/RLVR rollouts.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- IBM -->
+        <li class="perf perf--crimson brut-card" data-job="ibm">
+          <div class="perf__card" data-reveal>
+            <div class="perf__strip">
+              <span>GATE 02</span>
+              <span>2023 — 2024</span>
+            </div>
+            <div class="perf__body">
+              <div class="perf__left">
+                <div class="perf__head">
+                  <h3 class="perf__company"><a href="https://www.ibm.com" target="_blank" rel="noopener">IBM</a></h3>
+                </div>
+                <p class="perf__title">AI Scientist, Chief Analytics Office · New York, NY · Jun 2023 – Oct 2024</p>
+                <p class="perf__piece">♩ Bach — Goldberg Variations, BWV 988 &nbsp;·&nbsp; Well-Tempered Clavier, Book I</p>
+                <ul class="chips">
+                  <li class="chip">vLLM</li><li class="chip">HuggingFace</li><li class="chip">JAX</li>
+                  <li class="chip">SHAP</li><li class="chip">XGBoost</li>
+                </ul>
+              </div>
+              <div class="perf__right">
+                <ul class="perf__points">
+                  <li>Core team, <strong>watsonx.ai LLM Inference engine</strong> (open source @vLLM, now a PyTorch Foundation project). Contributed prefix-adapter serving support enabling efficient multi-tenant fine-tuned model inference + latency/throughput optimizations.</li>
+                  <li>Led <strong>PLG SaaS churn prediction</strong> using stacked gradient boosting with SHAP + LLM-generated explainability narratives; multi-million-dollar contracts retained per year.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- IBM Intern -->
+        <li class="perf perf--velvet brut-card" data-job="ibm-intern">
+          <div class="perf__card" data-reveal>
+            <div class="perf__strip">
+              <span>GATE 03</span>
+              <span>SUMMER 2022</span>
+            </div>
+            <div class="perf__body">
+              <div class="perf__left">
+                <div class="perf__head">
+                  <h3 class="perf__company">IBM (INTERN)</h3>
+                </div>
+                <p class="perf__title">AI Science Intern · New York, NY · Jun 2022 – Aug 2022</p>
+                <p class="perf__piece">♩ Beethoven — Moonlight Sonata, Op. 27 No. 2 &nbsp;·&nbsp; Appassionata, Op. 57</p>
+                <ul class="chips">
+                  <li class="chip">Siamese Nets</li><li class="chip">Triplet Loss</li><li class="chip">PyTorch</li>
+                </ul>
+              </div>
+              <div class="perf__right">
+                <ul class="perf__points">
+                  <li>Built <strong>skill recommendation engine</strong> with self-supervised Siamese Networks (triplet loss) for improved representation learning on sparse internal HR data; deployed to reduce hiring costs.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Other -->
+        <li class="perf perf--gold brut-card" data-job="other">
+          <div class="perf__card" data-reveal>
+            <div class="perf__strip">
+              <span>GATE 04</span>
+              <span>2021 — 2023</span>
+            </div>
+            <div class="perf__body">
+              <div class="perf__left">
+                <div class="perf__head">
+                  <h3 class="perf__company">EARLIER ROLES</h3>
+                </div>
+                <p class="perf__title">Orenda Power · Spherical Defence Labs · Tata Digital · MetLife</p>
+                <p class="perf__piece">♩ Ravel — Pavane pour une infante défunte &nbsp;·&nbsp; Gaspard de la nuit</p>
+              </div>
+              <div class="perf__right">
+                <ul class="perf__points">
+                  <li><strong>Orenda Power:</strong> Stochastic optimization for energy markets.</li>
+                  <li><strong>Spherical Defence Labs:</strong> Transformer network request anomaly detection, SOTA.</li>
+                  <li><strong>Tata Digital:</strong> Ecommerce AI. &nbsp;<strong>MetLife:</strong> Applied ML.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- BRIDGE: PERFORMANCES → COMPOSITIONS -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT III — RECITAL HALL</span>
+  </div>
+
+  <!-- COMPOSITIONS (research papers) ------------------------- -->
+  <section class="movement" id="compositions" aria-labelledby="compositions-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="6" y="4" width="16" height="20" stroke="currentColor" stroke-width="3"/><line x1="10" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="2"/><line x1="10" y1="15" x2="18" y2="15" stroke="currentColor" stroke-width="2"/><line x1="10" y1="20" x2="15" y2="20" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <p class="mov-head__kicker">RECITAL HALL · RESEARCH</p>
+          <h2 class="mov-head__title" id="compositions-title">COMPOSITIONS</h2>
+        </div>
+      </div>
+
+      <div class="compositions" aria-label="Research papers">
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">LLM Safety / Reasoning</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">Drop the Act: Probe-Filtered RL for Faithful Chain-of-Thought Reasoning</h3>
+            <p class="composition__desc">Uses linear probes to detect when a model's chain-of-thought diverges from its internal beliefs, filtering training signal to steer RL toward genuinely faithful reasoning rather than post-hoc rationalization.</p>
+            <ul class="chips"><li class="chip">Chain-of-Thought</li><li class="chip">RL</li><li class="chip">Faithfulness</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=Drop+the+Act+Probe+Filtered+RL+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">LLM Security</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">CANARY: Zero-Label Detection of Fine-Tuning Contamination in Language Models</h3>
+            <p class="composition__desc">Detects when a language model has been fine-tuned on contaminated or poisoned data without requiring any labeled examples — using statistical canaries embedded in the pretraining distribution.</p>
+            <ul class="chips"><li class="chip">Fine-Tuning</li><li class="chip">Contamination</li><li class="chip">Detection</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=CANARY+Fine-Tuning+Contamination+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">Speech / ASR</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">ACES: Accent Subspaces for Coupling, Explanations, and Stress-Testing in ASR</h3>
+            <p class="composition__desc">Identifies accent-specific latent subspaces in ASR models to explain performance disparities, couple accent representations across models, and systematically stress-test robustness to accentual variation.</p>
+            <ul class="chips"><li class="chip">ASR</li><li class="chip">Accents</li><li class="chip">Interpretability</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=ACES+Accent+Subspaces+ASR+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">Recommender Systems</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">From Gradient-Boosted Trees to Deep Recommenders: Closing the Gap with Tabular Transformers</h3>
+            <p class="composition__desc">Bridges the performance gap between gradient-boosted tree models and deep recommender systems by adapting tabular transformer architectures to structured recommendation data.</p>
+            <ul class="chips"><li class="chip">Recommenders</li><li class="chip">Transformers</li><li class="chip">Tabular Data</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=Gradient+Boosted+Trees+Deep+Recommenders+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">Mechanistic Interpretability</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">CIRCUS: Circuit Consensus under Uncertainty via Stability Ensembles</h3>
+            <p class="composition__desc">Uncertainty-aware circuit discovery producing ~40× smaller consensus circuits; validated on Gemma-2 &amp; Llama-3.2. Makes mechanistic interpretability analysis reproducible and robust.</p>
+            <ul class="chips"><li class="chip">Circuits</li><li class="chip">Interpretability</li><li class="chip">Ensembles</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=CIRCUS+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2026</span>
+            <span class="composition__venue">Adversarial Robustness</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">Thinking Wrong in Silence: Backdoor Attacks on Continuous Latent Reasoning</h3>
+            <p class="composition__desc">Discovers a fundamentally new attack surface for latent reasoning models — backdoors injected into the continuous reasoning chain, invisible to output monitors.</p>
+            <ul class="chips"><li class="chip">Backdoor</li><li class="chip">Latent Reasoning</li><li class="chip">LLM Safety</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=Thinking+Wrong+Silence+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>IntelliSys (Springer) 2026</span>
+            <span class="composition__venue">Multimodal Safety</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">CaptionFool: Universal Image Captioning Model Attacks</h3>
+            <p class="composition__desc">94–96% targeted attack success by modifying only 1.2% of image patches; evades content moderation. Demonstrates fragility of deployed captioning systems.</p>
+            <ul class="chips"><li class="chip">Adversarial Patches</li><li class="chip">VLM</li><li class="chip">Content Moderation</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=CaptionFool+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>AAAI 2022</span>
+            <span class="composition__venue">Universal Adversarial Triggers</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">MINIMAL: Mining Models for Universal Adversarial Triggers</h3>
+            <p class="composition__desc">Data-free universal adversarial triggers that match data-dependent baselines by mining model internals — enabling trigger attacks without access to training data.</p>
+            <ul class="chips"><li class="chip">UAT</li><li class="chip">Data-Free</li><li class="chip">AAAI</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=MINIMAL+Parekh+Universal+Adversarial" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>Dialogue &amp; Discourse 2023</span>
+            <span class="composition__venue">NLP / AES</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">AES Systems Are Both Overstable And Oversensitive: Evals &amp; Defenses</h3>
+            <p class="composition__desc">Automated Essay Scoring systems fail in two opposite ways simultaneously — rigidly stable to adversarial content but hypersensitive to benign paraphrases. Proposes defenses.</p>
+            <ul class="chips"><li class="chip">AES</li><li class="chip">Robustness</li><li class="chip">Evaluation</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=AES+Overstable+Oversensitive+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>FICC (Springer) 2023</span>
+            <span class="composition__venue">Vision Transformers</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">Attacking Compressed Vision Transformers</h3>
+            <p class="composition__desc">Shows that quantized and pruned Vision Transformers inherit and amplify adversarial vulnerabilities — compressed models are not more robust, they are differently brittle.</p>
+            <ul class="chips"><li class="chip">ViT</li><li class="chip">Compression</li><li class="chip">Adversarial</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=Attacking+Compressed+Vision+Transformers+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>CIKM 2022 · Adobe Research</span>
+            <span class="composition__venue">Information Extraction</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">LDKP: Keyphrases from Long Scientific Documents</h3>
+            <p class="composition__desc">Large-scale dataset and method for extracting keyphrases from full-length scientific documents — moving beyond abstract-only approaches to capture the complete document signal.</p>
+            <ul class="chips"><li class="chip">Keyphrases</li><li class="chip">NLP</li><li class="chip">Adobe Research</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=LDKP+Mahata+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>arXiv 2020</span>
+            <span class="composition__venue">NLP / AES</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">My Teacher Thinks the World Is Flat! Interpreting Automatic Essay Scoring Mechanisms</h3>
+            <p class="composition__desc">Early interpretability study on automated essay scoring models — probing what linguistic features and biases they internalize, and why they fail on factually wrong but fluent text.</p>
+            <ul class="chips"><li class="chip">AES</li><li class="chip">Interpretability</li><li class="chip">NLP</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=My+Teacher+World+Flat+Essay+Scoring+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDGE: COMPOSITIONS → LINER NOTES -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT III.V — LINER NOTES</span>
+  </div>
+
+  <!-- LINER NOTES (writing / blog) -------------------------- -->
+  <section class="movement" id="liner-notes" aria-labelledby="liner-notes-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 4h12l6 6v14H6V4z" stroke="currentColor" stroke-width="3"/><line x1="10" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2"/><line x1="10" y1="17" x2="20" y2="17" stroke="currentColor" stroke-width="2"/><line x1="10" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <p class="mov-head__kicker">READING ROOM · WRITING</p>
+          <h2 class="mov-head__title" id="liner-notes-title">LINER NOTES</h2>
+        </div>
+      </div>
+
+      <div class="liner-notes" aria-label="Blog posts and writing">
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Sep 2025</span>
+            <span class="liner__tag">Multimodal Safety</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2025/09/01/universal-adversarial-image-captioning/" target="_blank" rel="noopener">One Patch to Rule Them All: Universal Attacks on Image Captioning</a></h3>
+            <p class="liner__desc">What if you could make every photograph on the internet mean something else? A single fixed perturbation modifying only 1.2% of image patches achieves 94–96% targeted attack success. The images look identical to humans. The model is reliably, systematically wrong.</p>
+            <a class="brut-btn" href="/2025/09/01/universal-adversarial-image-captioning/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Mar 2025</span>
+            <span class="liner__tag">LLM Safety</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2025/03/01/backdoor-attacks-latent-reasoning/" target="_blank" rel="noopener">Thinking Wrong in Silence: Backdoor Attacks on a Model's Inner Monologue</a></h3>
+            <p class="liner__desc">Chain-of-thought was supposed to make models transparent. A new class of models reasons in compressed latent space — invisible to output monitors. ThoughtSteer injects a backdoor into that hidden reasoning, hijacking the model's trajectory before a single visible token is generated.</p>
+            <a class="brut-btn" href="/2025/03/01/backdoor-attacks-latent-reasoning/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Nov 2024</span>
+            <span class="liner__tag">Open Source / Engineering</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2024/11/01/vllm-prefix-adapter-contribution/" target="_blank" rel="noopener">Inside a Fast-Moving Inference Engine: My vLLM Contribution</a></h3>
+            <p class="liner__desc">Contributing to a production open-source project with hundreds of active contributors is a different experience from publishing a paper. The feedback loop is hours, not months. The correctness standard is operational — it either works in deployment or it doesn't.</p>
+            <a class="brut-btn" href="/2024/11/01/vllm-prefix-adapter-contribution/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Jun 2024</span>
+            <span class="liner__tag">ASR / Fairness</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2024/06/15/accent-subspaces-asr-fairness/" target="_blank" rel="noopener">Whose Voice Does the Model Hear?</a></h3>
+            <p class="liner__desc">"Swapnil" becomes "swamp neel," "swap nil," or, memorably, "one pill." ASR systems perform differently across accents. ACES works at the representation level — identifying accent-specific latent subspaces and showing that removing them creates a harder problem than anyone expected.</p>
+            <a class="brut-btn" href="/2024/06/15/accent-subspaces-asr-fairness/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Apr 2024</span>
+            <span class="liner__tag">Mechanistic Interpretability</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2024/04/01/circuit-consensus-under-uncertainty/" target="_blank" rel="noopener">The Parliament in the Model: How Neural Circuits Reach Consensus</a></h3>
+            <p class="liner__desc">Change the attribution method and you get different circuits. Change the threshold and the circuit expands or contracts. Published circuits may be as much an artifact of analyst choices as true structure. CIRCUS puts circuit discovery on firmer ground.</p>
+            <a class="brut-btn" href="/2024/04/01/circuit-consensus-under-uncertainty/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Mar 2023</span>
+            <span class="liner__tag">Vision Transformers</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2023/03/01/pruned-not-protected-compressed-vits/" target="_blank" rel="noopener">Pruned but Not Protected: On the Adversarial Fragility of Compressed Vision Transformers</a></h3>
+            <p class="liner__desc">There's an intuition, understandable and wrong, that a compressed model should be harder to attack. Adversarially resilient attention heads are precisely the ones removed first during pruning. Compression preserves or amplifies adversarial vulnerability.</p>
+            <a class="brut-btn" href="/2023/03/01/pruned-not-protected-compressed-vits/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+        <article class="liner brut-card" data-reveal>
+          <div class="liner__bar">
+            <span>Feb 2022</span>
+            <span class="liner__tag">Adversarial ML / NLP</span>
+          </div>
+          <div class="liner__body">
+            <h3 class="liner__title"><a href="/2022/02/01/data-free-universal-adversarial-triggers/" target="_blank" rel="noopener">Finding the Cheat Code: Universal Adversarial Triggers Without Any Data</a></h3>
+            <p class="liner__desc">Can you find a token sequence that drives a model toward a target class — without ever seeing a training example? Just the model itself. The gradient signal from the model's own parameters is rich enough to discover adversarial structure. That should make anyone who trains language models a little uncomfortable.</p>
+            <a class="brut-btn" href="/2022/02/01/data-free-universal-adversarial-triggers/" target="_blank" rel="noopener">↗ READ</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDGE: LINER NOTES → REPERTOIRE -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT IV — REPERTOIRE</span>
+  </div>
+
+  <!-- REPERTOIRE (skills) ----------------------------------- -->
+  <section class="movement" id="score" aria-labelledby="score-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="12" width="22" height="4" fill="currentColor"/><rect x="8" y="6" width="4" height="16" fill="currentColor"/><rect x="16" y="6" width="4" height="16" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <p class="mov-head__kicker">INSTRUMENT RACK · SKILLS</p>
+          <h2 class="mov-head__title" id="score-title">REPERTOIRE</h2>
+        </div>
+      </div>
+
+      <div class="score-board" data-reveal>
+        <div class="score-board__spec">
+          <span>SP/2026 PRO</span>
+          <span>29 KEYS</span>
+          <span>TUNED ✓</span>
+          <span>80+ CITATIONS</span>
+        </div>
+        <ul class="keys" aria-label="Technical skills">
+          <li class="key key--ivory" style="--rot:-2deg">Python</li>
+          <li class="key key--ebony" style="--rot:1.5deg">PyTorch</li>
+          <li class="key key--gold"  style="--rot:-1deg">vLLM</li>
+          <li class="key key--ivory" style="--rot:2deg">TensorFlow</li>
+          <li class="key key--mist"  style="--rot:-1.5deg">JAX</li>
+          <li class="key key--ebony" style="--rot:1deg">HuggingFace</li>
+          <li class="key key--crimson" style="--rot:-2deg">LangGraph</li>
+          <li class="key key--ivory" style="--rot:1.5deg">MCP</li>
+          <li class="key key--gold"  style="--rot:-1deg">RAG</li>
+          <li class="key key--mist"  style="--rot:2deg">Tool-use / Function Calling</li>
+          <li class="key key--ebony" style="--rot:-1.5deg">GRPO / RLVR</li>
+          <li class="key key--ivory" style="--rot:1deg">k8s / OpenShift</li>
+          <li class="key key--crimson" style="--rot:-2deg">Docker</li>
+          <li class="key key--mist"  style="--rot:1.5deg">Ray</li>
+          <li class="key key--ivory" style="--rot:-1deg">SQL</li>
+          <li class="key key--gold"  style="--rot:2deg">Git</li>
+          <li class="key key--ebony" style="--rot:-1.5deg">Mechanistic Interp.</li>
+          <li class="key key--ivory" style="--rot:1deg">Adversarial Robustness</li>
+          <li class="key key--mist"  style="--rot:-2deg">Agentic Systems</li>
+          <li class="key key--crimson" style="--rot:1.5deg">RL Alignment</li>
+          <li class="key key--ivory" style="--rot:-1deg">Explainable AI</li>
+          <li class="key key--gold"  style="--rot:2deg">VLM Safety</li>
+          <li class="key key--ebony" style="--rot:-1.5deg">XGBoost / LGBM</li>
+          <li class="key key--mist"  style="--rot:1deg">SHAP</li>
+          <li class="key key--ivory" style="--rot:-2deg">Siamese Networks</li>
+          <li class="key key--crimson" style="--rot:1.5deg">Pandas / NumPy</li>
+          <li class="key key--mist"  style="--rot:-1deg">Scikit-learn</li>
+          <li class="key key--ebony" style="--rot:2deg">TensorRT / CUDA</li>
+          <li class="key key--gold"  style="--rot:-1.5deg">Kaggle Expert</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDGE: REPERTOIRE → AWARDS -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT V — STANDING OVATION</span>
+  </div>
+
+  <!-- AWARDS (podium) --------------------------------------- -->
+  <section class="movement" id="awards" aria-labelledby="awards-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">🏆</div>
+        <div>
+          <p class="mov-head__kicker">STANDING OVATION · AWARDS</p>
+          <h2 class="mov-head__title" id="awards-title">ACCOLADES</h2>
+        </div>
+      </div>
+
+      <p class="podium__kicker" data-reveal>5 AWARDS &amp; CERTIFICATIONS · NEWEST FIRST</p>
+      <ol class="podium" aria-label="Awards and certifications" data-reveal>
+        <li class="podium__step podium__step--gold" style="--step:1">
+          <div class="podium__strip"><span>#01</span><span>2024</span></div>
+          <div class="podium__body">
+            <p class="podium__title">Kaggle Competition Expert</p>
+            <p class="podium__issuer">Kaggle — Jigsaw Toxicity Top 9% · QA Top 8%</p>
+          </div>
+        </li>
+        <li class="podium__step podium__step--gold" style="--step:0">
+          <div class="podium__strip"><span>#02</span><span>2022</span></div>
+          <div class="podium__body">
+            <p class="podium__title">NVIDIA Global AI Challenge — 2nd Place</p>
+            <p class="podium__issuer">NVIDIA — DL with CUDA / TensorRT</p>
+          </div>
+        </li>
+        <li class="podium__step podium__step--silver" style="--step:2">
+          <div class="podium__strip"><span>#03</span><span>2022</span></div>
+          <div class="podium__body">
+            <p class="podium__title">IBM AI Hackathon, IIT Bombay — 1st Place</p>
+            <p class="podium__issuer">IBM Research</p>
+          </div>
+        </li>
+      </ol>
+
+      <div data-reveal>
+        <table class="sheet" style="width:100%; border:3px solid var(--ebony); margin-top: 24px;">
+          <caption class="sheet__cap" style="display:flex; font-family:var(--font-mono); background:var(--ebony); color:var(--ivory); padding:11px 14px 10px; font-size:12px; justify-content:space-between;">
+            <span>FURTHER HONOURS</span><span>SORTED NEWEST FIRST</span>
+          </caption>
+          <thead><tr>
+            <th style="border-bottom:3px solid var(--ebony); padding:11px 14px 9px; font-family:var(--font-mono); font-size:10px; font-weight:400; text-align:left;">#</th>
+            <th style="border-bottom:3px solid var(--ebony); padding:11px 14px 9px; font-family:var(--font-mono); font-size:10px; font-weight:400; text-align:left;">HONOUR</th>
+            <th style="border-bottom:3px solid var(--ebony); padding:11px 14px 9px; font-family:var(--font-mono); font-size:10px; font-weight:400; text-align:left;">ISSUER</th>
+          </tr></thead>
+          <tbody style="font-family:var(--font-mono); font-size:12px;">
+            <tr><td style="padding:11px 14px; border-top:2px dashed var(--ebony);">#04</td><td style="padding:11px 14px; border-top:2px dashed var(--ebony); text-transform:uppercase;">Google Certified TensorFlow Developer</td><td style="padding:11px 14px; border-top:2px dashed var(--ebony);">Google</td></tr>
+            <tr><td style="padding:11px 14px; border-top:2px dashed var(--ebony);">#05</td><td style="padding:11px 14px; border-top:2px dashed var(--ebony); text-transform:uppercase;">SoftBank Forex Prediction — 12th / 2500 teams</td><td style="padding:11px 14px; border-top:2px dashed var(--ebony);">SoftBank</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRIDGE: AWARDS → FINALE -->
+  <div class="stage-bridge" aria-hidden="true">
+    <span class="stage-bridge__label">→ ACT VI — CONSERVATORY</span>
+  </div>
+
+  <!-- FINALE (education + CTA) ------------------------------ -->
+  <section class="movement" id="finale" aria-labelledby="finale-title">
+    <div class="c-container">
+      <div class="mov-head" data-reveal>
+        <div class="mov-head__plate" aria-hidden="true">🎓</div>
+        <div>
+          <p class="mov-head__kicker">CONSERVATORY · EDUCATION</p>
+          <h2 class="mov-head__title" id="finale-title">FINALE</h2>
+        </div>
+      </div>
+
+      <p style="font-family:var(--font-mono); font-size:12px; margin:0 0 20px;" data-reveal>
+        OFFICIAL RECORD — ALL DEGREES, NEWEST FIRST
+      </p>
+
+      <div class="board-wrap" data-reveal>
+        <div class="board__cap">
+          <span>CONCERT: THE PAREKH</span>
+          <span>EDUCATION LOG</span>
+        </div>
+        <table class="board" aria-label="Education timeline">
+          <thead><tr>
+            <th class="board__split">SPLIT</th>
+            <th>INSTITUTION</th>
+            <th>PROGRAMME</th>
+            <th class="board__time">YEARS</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="board__split">S01</td>
+              <td class="board__who">New York University<span class="board__detail">MS Computer Engineering</span></td>
+              <td>Graduate</td>
+              <td class="board__time">2021–23</td>
+            </tr>
+            <tr>
+              <td class="board__split">S02</td>
+              <td class="board__who">London School of Economics<span class="board__detail">ML Summer School · Topped A+</span></td>
+              <td>Executive</td>
+              <td class="board__time">2022</td>
+            </tr>
+            <tr>
+              <td class="board__split">S03</td>
+              <td class="board__who">VJTI Mumbai<span class="board__detail">BS Computer Science</span></td>
+              <td>Undergraduate</td>
+              <td class="board__time">2017–21</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta" data-reveal>
+        <p class="cta__kicker">ENCORE</p>
+        <a href="mailto:swapnilbp100@gmail.com" class="say-hi">SAY HI ↗</a>
+        <ul class="chips" style="margin-top:16px;">
+          <li class="chip">swapnilbp100@gmail.com</li>
+          <li class="chip"><a href="https://github.com/SwapnilDreams100" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">github</a></li>
+          <li class="chip"><a href="https://www.linkedin.com/in/swapnil-parekh" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">linkedin</a></li>
+          <li class="chip"><a href="https://scholar.google.com/citations?user=Kg63DSwAAAAJ" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">scholar</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="c-footer">
+  <div class="c-container">
+    <div class="c-footer__row">
+      <span>SWAPNIL PAREKH · AI SCIENTIST</span>
+      <span>·</span>
+      <a href="/assets/SwapnilParekh_Resume-9.pdf">CV PDF</a>
+      <span>·</span>
+      <a href="https://github.com/SwapnilDreams100" target="_blank" rel="noopener">GitHub</a>
+      <span>·</span>
+      <a href="https://www.linkedin.com/in/swapnil-parekh" target="_blank" rel="noopener">LinkedIn</a>
+      <span>·</span>
+      <a href="https://scholar.google.com/citations?user=Kg63DSwAAAAJ" target="_blank" rel="noopener">Scholar</a>
+      <span>·</span>
+      <a href="/">← BACK TO BLOG</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   PIXEL CANVAS — pianist sprite descending between grand pianos
+============================================================ */
+(function() {
+  const canvas = document.getElementById('pixel-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  // Stage bridges — where the pianos live (one per bridge)
+  // We'll query these live in render() so positions track scroll
+  const BRIDGE_ALTS = [0, 1, 0, 1, 0, 1]; // 0=left piano, 1=right piano (alternating)
+
+  let W = 0, H = 0, DPR = 1;
+  let docH = 0;
+  let scrollY = 0;
+  let animId = null;
+  let lastY = -1;
+  let isDark = false;
+
+  // Colours
+  function palette(dark) {
+    return {
+      bg:       dark ? '#0D0D0D' : 'transparent',
+      stage:    dark ? '#1a1025' : '#E8E4DC',
+      piano:    dark ? '#1c1c2e' : '#1A1025',
+      pianoHi:  dark ? '#3d2f5a' : '#3d2f5a',
+      keys:     dark ? '#f5f0e8' : '#f5f0e8',
+      blackKey: dark ? '#0d0d0d' : '#0d0d0d',
+      legs:     dark ? '#0d0d0d' : '#0d0d0d',
+      figure:   dark ? '#c8933a' : '#c8933a',
+      figureShadow: dark ? '#f5f0e8' : '#0d0d0d',
+      note:     dark ? '#c8933a' : '#c8933a',
+      beam:     dark ? '#c8933a55' : '#c8933a33',
+      stage2:   dark ? '#ffffff08' : '#0000000a',
+    };
+  }
+
+  function resize() {
+    DPR = window.devicePixelRatio || 1;
+    W   = canvas.offsetWidth;
+    H   = canvas.offsetHeight;
+    canvas.width  = W * DPR;
+    canvas.height = H * DPR;
+    ctx.scale(DPR, DPR);
+    docH = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+  }
+
+  // Draw a tiny grand piano at (x, y) with given size
+  function drawPiano(x, y, sz, P) {
+    // sz = unit size in px
+    const w = sz * 10, h = sz * 4.5;
+
+    ctx.save();
+
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.beginPath();
+    ctx.ellipse(x + w * 0.45, y + h * 0.85 + sz * 2.5, w * 0.4, sz * 0.8, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Lid (top panel — grand piano silhouette)
+    ctx.fillStyle = P.piano;
+    ctx.beginPath();
+    ctx.moveTo(x + sz, y);                         // front-left corner
+    ctx.lineTo(x + w * 0.65, y);                   // front goes toward tail
+    ctx.quadraticCurveTo(x + w, y - sz, x + w, y + h * 0.32); // curved tail
+    ctx.lineTo(x + w, y + h * 0.68);              // right side down
+    ctx.lineTo(x, y + h * 0.68);                  // bottom right to left
+    ctx.lineTo(x, y);                              // back up
+    ctx.closePath();
+    ctx.fill();
+
+    // Lid highlight line
+    ctx.strokeStyle = P.pianoHi;
+    ctx.lineWidth = sz * 0.4;
+    ctx.beginPath();
+    ctx.moveTo(x + sz * 0.5, y + sz * 0.3);
+    ctx.lineTo(x + w * 0.55, y + sz * 0.3);
+    ctx.quadraticCurveTo(x + w - sz * 0.5, y, x + w - sz * 0.5, y + h * 0.25);
+    ctx.stroke();
+
+    // Open lid prop (a line sticking up)
+    ctx.strokeStyle = P.figureShadow;
+    ctx.lineWidth = sz * 0.35;
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.28, y);
+    ctx.lineTo(x + w * 0.42, y - h * 0.45);
+    ctx.lineTo(x + w * 0.72, y - h * 0.45);
+    ctx.stroke();
+
+    // Keys area (white strip)
+    ctx.fillStyle = P.keys;
+    const keysX = x + sz * 0.8;
+    const keysW = w - sz * 1.6;
+    const keysY = y + h * 0.5;
+    const keysH = h * 0.18;
+    ctx.fillRect(keysX, keysY, keysW, keysH);
+
+    // Key dividers (white keys)
+    ctx.strokeStyle = P.piano;
+    ctx.lineWidth = 0.8;
+    const numKeys = 12;
+    for (let k = 1; k < numKeys; k++) {
+      const kx = keysX + (keysW / numKeys) * k;
+      ctx.beginPath();
+      ctx.moveTo(kx, keysY);
+      ctx.lineTo(kx, keysY + keysH);
+      ctx.stroke();
+    }
+
+    // Black keys (sharps)
+    ctx.fillStyle = P.blackKey;
+    const blackKeyPos = [0.08, 0.17, 0.42, 0.50, 0.58, 0.83, 0.91];
+    for (const bkp of blackKeyPos) {
+      ctx.fillRect(keysX + keysW * bkp, keysY, keysW * 0.065, keysH * 0.62);
+    }
+
+    // Keyboard ledge/nameboard
+    ctx.fillStyle = P.legs;
+    ctx.fillRect(keysX - sz * 0.3, keysY - sz * 0.4, keysW + sz * 0.6, sz * 0.5);
+
+    // Front panel below keys
+    ctx.fillStyle = P.piano;
+    ctx.fillRect(keysX, keysY + keysH, keysW, sz * 0.6);
+
+    // Legs (3 legs)
+    ctx.fillStyle = P.legs;
+    const legH = sz * 2.8;
+    const legW = sz * 0.6;
+    // Front-left leg
+    ctx.fillRect(x + sz, y + h * 0.68, legW, legH);
+    // Front-right leg
+    ctx.fillRect(x + w - sz * 1.6, y + h * 0.68, legW, legH);
+    // Back-center leg
+    ctx.fillRect(x + w * 0.47, y + h * 0.68, legW, legH);
+
+    // Pedal lyre (small rectangle at bottom center)
+    ctx.fillStyle = P.legs;
+    ctx.fillRect(x + w * 0.4, y + h * 0.68 + legH * 0.65, w * 0.2, sz * 0.5);
+    // Pedals
+    const pedW = sz * 0.5;
+    const pedY = y + h * 0.68 + legH * 0.65 + sz * 0.5;
+    for (let p = 0; p < 3; p++) {
+      ctx.fillRect(x + w * 0.425 + p * (pedW + sz * 0.3), pedY, pedW, sz * 0.7);
+    }
+
+    ctx.restore();
+  }
+
+  // ── Pixel-art pianist sprite ──────────────────────────────────────────────
+  // Each frame is a 12×20 grid.  Pixel codes:
+  //   0 = transparent   1 = outline/dark  2 = skin   3 = hair
+  //   4 = suit body     5 = suit highlight 6 = shoes  7 = shirt-white
+  //   8 = stool         9 = hand-highlight
+  // Coordinate origin (x,y) passed to drawPianist is the BOTTOM-CENTER of the sprite.
+
+  const SPRITE_W = 12, SPRITE_H = 20;
+
+  // Walk right — 4 frames (flip horizontally for walk-left)
+  const WALK = [
+    // Frame 0 — mid-stride right
+    [
+      [0,0,0,0,1,1,1,1,0,0,0,0], // row 0  (top = head)
+      [0,0,0,1,2,2,2,2,1,0,0,0], // row 1
+      [0,0,0,1,2,3,3,2,1,0,0,0], // row 2  hair
+      [0,0,0,1,3,3,3,3,1,0,0,0], // row 3  hair
+      [0,0,0,0,1,2,2,1,0,0,0,0], // row 4  neck
+      [0,0,1,1,7,7,7,7,1,1,0,0], // row 5  collar / shirt
+      [0,1,4,4,4,4,4,4,4,4,1,0], // row 6  shoulders
+      [0,1,4,5,4,4,4,5,4,4,1,0], // row 7  chest
+      [0,1,4,4,4,4,4,4,4,4,1,0], // row 8  torso
+      [0,1,4,4,4,4,4,4,4,4,1,0], // row 9  torso
+      [0,1,9,4,4,4,4,4,9,4,1,0], // row 10 arms out
+      [0,0,1,4,4,4,4,4,1,0,0,0], // row 11 arms mid
+      [0,0,0,1,4,4,4,1,0,0,0,0], // row 12 waist
+      [0,0,1,4,0,0,4,4,1,0,0,0], // row 13 hips split
+      [0,1,4,4,0,0,0,4,4,1,0,0], // row 14 thigh-l fwd
+      [0,1,4,4,0,0,1,4,4,1,0,0], // row 15
+      [0,1,4,4,0,1,4,0,4,1,0,0], // row 16 knee
+      [0,0,1,4,1,0,4,0,1,0,0,0], // row 17 shin
+      [0,0,1,6,6,0,6,6,1,0,0,0], // row 18 shoes
+      [0,0,0,1,1,0,1,1,0,0,0,0], // row 19 (bottom)
+    ],
+    // Frame 1 — feet together (contact)
+    [
+      [0,0,0,0,1,1,1,1,0,0,0,0],
+      [0,0,0,1,2,2,2,2,1,0,0,0],
+      [0,0,0,1,2,3,3,2,1,0,0,0],
+      [0,0,0,1,3,3,3,3,1,0,0,0],
+      [0,0,0,0,1,2,2,1,0,0,0,0],
+      [0,0,1,1,7,7,7,7,1,1,0,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,5,4,4,4,5,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [1,4,9,4,4,4,4,4,4,9,4,1], // arms low
+      [0,1,4,4,4,4,4,4,4,1,0,0],
+      [0,0,0,1,4,4,4,1,0,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,6,6,0,6,6,1,0,0,0],
+      [0,0,0,1,1,0,1,1,0,0,0,0],
+    ],
+    // Frame 2 — mid-stride left (mirror of frame 0)
+    [
+      [0,0,0,0,1,1,1,1,0,0,0,0],
+      [0,0,0,1,2,2,2,2,1,0,0,0],
+      [0,0,0,1,2,3,3,2,1,0,0,0],
+      [0,0,0,1,3,3,3,3,1,0,0,0],
+      [0,0,0,0,1,2,2,1,0,0,0,0],
+      [0,0,1,1,7,7,7,7,1,1,0,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,5,4,4,4,5,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,9,4,4,4,4,4,9,4,1,0],
+      [0,0,1,4,4,4,4,4,1,0,0,0],
+      [0,0,0,1,4,4,4,1,0,0,0,0],
+      [0,0,0,1,4,4,0,4,1,0,0,0],
+      [0,0,1,4,4,0,0,4,4,1,0,0], // opposite leg fwd
+      [0,0,1,4,4,1,0,4,4,1,0,0],
+      [0,0,1,4,0,4,1,4,4,1,0,0],
+      [0,0,0,1,0,4,1,4,1,0,0,0],
+      [0,0,0,1,6,6,1,6,6,1,0,0],
+      [0,0,0,0,1,1,0,1,1,0,0,0],
+    ],
+    // Frame 3 — feet together again (for smooth loop: 0-1-2-1 cycle)
+    [
+      [0,0,0,0,1,1,1,1,0,0,0,0],
+      [0,0,0,1,2,2,2,2,1,0,0,0],
+      [0,0,0,1,2,3,3,2,1,0,0,0],
+      [0,0,0,1,3,3,3,3,1,0,0,0],
+      [0,0,0,0,1,2,2,1,0,0,0,0],
+      [0,0,1,1,7,7,7,7,1,1,0,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,5,4,4,4,5,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [1,4,9,4,4,4,4,4,4,9,4,1],
+      [0,1,4,4,4,4,4,4,4,1,0,0],
+      [0,0,0,1,4,4,4,1,0,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,4,4,0,4,4,1,0,0,0],
+      [0,0,1,6,6,0,6,6,1,0,0,0],
+      [0,0,0,1,1,0,1,1,0,0,0,0],
+    ],
+  ];
+
+  // Sit pose (facing piano — arms forward)
+  const SPRITE_SIT = [
+    [0,0,0,0,1,1,1,1,0,0,0,0],
+    [0,0,0,1,2,2,2,2,1,0,0,0],
+    [0,0,0,1,2,3,3,2,1,0,0,0],
+    [0,0,0,1,3,3,3,3,1,0,0,0],
+    [0,0,0,0,1,2,2,1,0,0,0,0],
+    [0,0,1,1,7,7,7,7,1,1,0,0],
+    [0,1,4,4,4,4,4,4,4,4,1,0],
+    [0,1,4,5,4,4,4,5,4,4,1,0],
+    [0,1,4,4,4,4,4,4,4,4,1,0],
+    [0,1,4,4,4,4,4,4,4,4,1,0],
+    [1,9,9,9,4,4,4,4,9,9,9,1], // arms extended forward
+    [0,0,0,0,1,4,4,1,0,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,1,4,4,4,4,4,4,1,0,0], // hips on stool
+    [0,0,1,8,8,8,8,8,8,1,0,0], // stool seat
+    [0,0,1,4,4,0,0,4,4,1,0,0], // legs down
+    [0,0,1,4,4,0,0,4,4,1,0,0],
+    [0,0,1,4,4,0,0,4,4,1,0,0],
+    [0,0,1,6,6,0,0,6,6,1,0,0],
+    [0,0,0,1,1,0,0,1,1,0,0,0],
+  ];
+
+  // Bow pose (standing, leaning forward)
+  const SPRITE_BOW = [
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,1,1,0,0,0,0],
+    [0,0,0,0,1,2,2,2,1,0,0,0],
+    [0,0,0,0,1,2,3,2,1,0,0,0],
+    [0,0,0,0,1,3,3,2,1,0,0,0],
+    [0,0,0,0,0,1,2,1,0,0,0,0],
+    [0,0,0,1,1,7,7,4,4,1,0,0], // torso leaned forward
+    [0,0,1,4,4,4,4,4,4,4,1,0],
+    [0,1,4,4,5,4,4,5,4,4,1,0],
+    [1,9,9,4,4,4,4,4,4,4,1,0], // arm sweeping out
+    [0,1,4,4,4,4,4,4,1,0,0,0],
+    [0,0,1,4,4,4,4,1,0,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,0,1,4,4,4,4,1,0,0,0],
+    [0,0,0,1,6,6,6,6,1,0,0,0],
+    [0,0,0,0,1,1,1,1,0,0,0,0],
+  ];
+
+  // Pixel color resolver — returns CSS color string for each code
+  function pixelColor(code, P) {
+    switch (code) {
+      case 0: return null;              // transparent
+      case 1: return '#111';            // outline
+      case 2: return '#f5c9a0';         // skin
+      case 3: return '#2a1a0e';         // dark hair
+      case 4: return P.figure;          // suit body
+      case 5: return P.pianoHi;         // suit highlight
+      case 6: return '#1a1a1a';         // shoes
+      case 7: return '#f0ede8';         // shirt white
+      case 8: return '#3d2b1a';         // stool
+      case 9: return '#e8c990';         // hand highlight
+      default: return null;
+    }
+  }
+
+  // Draw pianist at (x, y) = bottom-center, sz = pixel size in canvas px
+  // pose: 'sit' | 'bow' | 'walk-l' | 'walk-r'
+  function drawPianist(x, y, sz, pose, P) {
+    let grid;
+    let flipX = false;
+
+    if (pose === 'sit') {
+      grid = SPRITE_SIT;
+    } else if (pose === 'bow') {
+      grid = SPRITE_BOW;
+    } else {
+      // Walk cycle: frame advances at ~8fps
+      const frame = Math.floor(Date.now() / 125) % 4;
+      grid = WALK[frame];
+      flipX = (pose === 'walk-r');
+    }
+
+    // Origin: bottom-center of sprite
+    const ox = x - (SPRITE_W * sz) / 2;
+    const oy = y - SPRITE_H * sz;
+
+    ctx.save();
+    if (flipX) {
+      // Mirror horizontally around sprite center
+      ctx.translate(x * 2, 0);
+      ctx.scale(-1, 1);
+    }
+
+    for (let row = 0; row < SPRITE_H; row++) {
+      for (let col = 0; col < SPRITE_W; col++) {
+        const code = grid[row][col];
+        const c = pixelColor(code, P);
+        if (!c) continue;
+        ctx.fillStyle = c;
+        ctx.fillRect(
+          Math.round(ox + col * sz),
+          Math.round(oy + row * sz),
+          Math.ceil(sz),
+          Math.ceil(sz)
+        );
+      }
+    }
+
+    ctx.restore();
+  }
+
+  // Floating musical notes
+  const NOTES = ['♩', '♪', '♫', '♬'];
+  let noteParticles = [];
+
+  // ── Sprite walking state ──────────────────────────────────────────────────
+  // spX/spY: current screen position (canvas px); lerped toward target each frame
+  // spPose: current visual pose
+  let spX = null;        // null = not yet initialized
+  let spY = null;
+  let spPose = 'sit';
+
+  function spawnNote(x, y) {
+    noteParticles.push({ x, y, vx: (Math.random() - 0.5) * 1.5, vy: -1.5 - Math.random(), life: 1, sym: NOTES[Math.floor(Math.random() * NOTES.length)] });
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    const P = palette(isDark);
+    docH = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+
+    const isMobile = W < 900;
+
+    // Piano unit size — kept small so it doesn't overpower text
+    const pianoSz = isMobile
+      ? Math.max(5, Math.min(W * 0.007, 9))
+      : Math.max(8, Math.min(W * 0.010, 14));
+    const pianoW = pianoSz * 10;
+    const pianoH = pianoSz * 4.5;
+
+    // Query ALL stage bridges live — their current screen position is the ground truth
+    const bridges = Array.from(document.querySelectorAll('.stage-bridge'));
+
+    // For each bridge, compute its screen-center Y and X side
+    const bridgeData = bridges.map((el, i) => {
+      const rect = el.getBoundingClientRect();
+      const screenY = rect.top + rect.height * 0.5;  // vertical center on screen
+      const side = BRIDGE_ALTS[i % BRIDGE_ALTS.length]; // 0=left, 1=right
+      const pianoX = side === 0
+        ? W * 0.12                          // left-leaning
+        : W - pianoW - W * 0.12;            // right-leaning
+      const visible = rect.top < H + pianoH && rect.bottom > -pianoH;
+      return { screenY, pianoX, pianoW, side, visible, rect };
+    });
+
+    // Draw dark stage backgrounds for each visible bridge (since bridges are now transparent)
+    for (const bd of bridgeData) {
+      if (!bd.visible) continue;
+      const bTop = bd.rect.top;
+      const bH   = bd.rect.height;
+      if (bTop > H || bTop + bH < 0) continue;
+
+      // Dark stage fill
+      const stageBg = isDark ? '#08050f' : '#1A1025';
+      ctx.fillStyle = stageBg;
+      ctx.fillRect(0, bTop, W, bH);
+
+      // Subtle grid lines (vertical + horizontal)
+      ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 80) {
+        ctx.beginPath(); ctx.moveTo(gx, bTop); ctx.lineTo(gx, bTop + bH); ctx.stroke();
+      }
+      for (let gy = bTop; gy < bTop + bH; gy += 55) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+    }
+
+    // Draw faint staff lines — only in visible bridges
+    ctx.lineWidth = 1;
+    for (const bd of bridgeData) {
+      if (!bd.visible) continue;
+      ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+      const staffTop = bd.rect.top;
+      const staffH   = bd.rect.height;
+      for (let l = 1; l <= 5; l++) {
+        const ly = staffTop + staffH * (0.38 + l * 0.042);
+        if (ly < 0 || ly > H) continue;
+        ctx.beginPath();
+        ctx.moveTo(0, ly);
+        ctx.lineTo(W, ly);
+        ctx.stroke();
+      }
+      // Faint treble clef
+      ctx.font = `${bd.rect.height * 0.55}px serif`;
+      ctx.fillStyle = isDark ? 'rgba(200,147,58,0.08)' : 'rgba(200,147,58,0.1)';
+      ctx.fillText('𝄞', W * 0.03, staffTop + staffH * 0.82);
+    }
+
+    // Draw each piano at its bridge's current screen position
+    for (const bd of bridgeData) {
+      if (!bd.visible) continue;
+      const pianoY = bd.screenY - pianoH * 0.6;
+      ctx.globalAlpha = 0.95;
+      drawPiano(bd.pianoX, pianoY, pianoSz, P);
+      ctx.globalAlpha = 1;
+    }
+
+    // pianistSz = canvas px per "pixel" in the sprite grid (12×20 grid)
+    // Target height ~60-80px → sz = 60..80 / 20 = 3..4
+    const pianistSz = isMobile
+      ? Math.max(2.5, Math.min(W * 0.004, 3.5))
+      : Math.max(3,   Math.min(W * 0.0045, 5));
+
+    // Derived sprite dimensions in canvas px
+    const spriteCanvasW = SPRITE_W * pianistSz;
+    const spriteCanvasH = SPRITE_H * pianistSz;
+
+    // ── Pianist: walk down the page as user scrolls, sit at each piano ───────
+    // No interpolation. Just find the most-visible bridge and place the sprite
+    // right beside its piano, at the vertical center of the bridge.
+
+    // ── Check if the say-hi button is in view → bow there instead ──────────
+    const sayHiEl = document.querySelector('.say-hi');
+    const sayHiRect = sayHiEl ? sayHiEl.getBoundingClientRect() : null;
+    const sayHiVisible = sayHiRect && sayHiRect.top < H * 0.85 && sayHiRect.bottom > H * 0.15;
+
+    // Find which bridge is "active" — nearest to screen center (vertical)
+    let activeIdx = 0;
+    let activeDist = Infinity;
+    for (let i = 0; i < bridgeData.length; i++) {
+      const dist = Math.abs(bridgeData[i].screenY - H * 0.5);
+      if (dist < activeDist) { activeDist = dist; activeIdx = i; }
+    }
+    const activeBd = bridgeData[activeIdx];
+
+    // Determine target X beside the piano
+    let targetX;
+    if (activeBd.side === 0) {
+      // Piano on LEFT → sprite sits at right end of keys
+      targetX = activeBd.pianoX + pianoW * 0.75;
+    } else {
+      // Piano on RIGHT → sprite sits at left end of keys
+      targetX = activeBd.pianoX + pianoW * 0.25;
+    }
+
+    // Determine if sprite is "close enough" to a bridge to sit
+    // Sit when the active bridge center is within half the viewport from center
+    const bridgeDistFromCenter = Math.abs(activeBd.screenY - H * 0.5);
+    const sitThreshold = H * 0.45;  // within 45% of half-viewport = nearly centered
+    const isSitting = !sayHiVisible && bridgeDistFromCenter < sitThreshold;
+
+    // If say-hi is visible, override target to stand beside the button and bow
+    if (sayHiVisible) {
+      // Place sprite just to the right of the button
+      const btnMidY = sayHiRect.top + sayHiRect.height * 0.5;
+      targetX = sayHiRect.right + spriteCanvasW * 0.8;
+      // Clamp so it doesn't go off-screen right
+      if (targetX + spriteCanvasW * 0.5 > W) targetX = sayHiRect.left - spriteCanvasW * 0.8;
+      const targetYBow = btnMidY + spriteCanvasH * 0.1;
+      if (spX === null) { spX = targetX; spY = targetYBow; }
+      spX += (targetX - spX) * 0.10;
+      spY += (targetYBow - spY) * 0.10;
+      // Bow only once sprite has walked close enough
+      spPose = Math.abs(spX - targetX) < spriteCanvasW * 1.5 ? 'bow' : (targetX > spX ? 'walk-r' : 'walk-l');
+    } else {
+      // Initialize sprite position on first frame
+      if (spX === null) {
+        spX = targetX;
+        spY = isSitting ? activeBd.screenY : H * 0.5;
+      }
+
+      // Target Y: locked to bridge when sitting, floating at viewport center when walking
+      const targetY = isSitting
+        ? activeBd.screenY + spriteCanvasH * 0.1
+        : H * 0.5;
+
+      // Smooth lerp toward target position
+      const lerpSpeed = isSitting ? 0.18 : 0.10;
+      spX += (targetX - spX) * lerpSpeed;
+      spY += (targetY - spY) * lerpSpeed;
+
+      // Determine pose
+      if (isSitting) {
+        spPose = 'sit';
+      } else {
+        // Walking: direction toward target X
+        if (Math.abs(targetX - spX) > spriteCanvasW * 0.5) {
+          spPose = targetX > spX ? 'walk-r' : 'walk-l';
+        } else {
+          // Moving mostly vertically — face the side the next piano is on
+          spPose = activeBd.side === 0 ? 'walk-l' : 'walk-r';
+        }
+      }
+    }
+
+    // Draw the sprite
+    ctx.globalAlpha = 0.95;
+    drawPianist(spX, spY, pianistSz, spPose, P);
+    ctx.globalAlpha = 1;
+
+    // Floating notes — when sitting at piano, or when bowing at say-hi
+    if (isSitting && Math.random() < 0.12) {
+      spawnNote(spX, spY - spriteCanvasH * 0.55);
+    }
+    if (sayHiVisible && spPose === 'bow' && Math.random() < 0.07) {
+      spawnNote(spX, spY - spriteCanvasH * 0.7);
+    }
+
+    // Soft glow connecting hands to keys — only when sitting at piano
+    if (isSitting) {
+      const keysX   = activeBd.pianoX + pianoSz * 0.8;
+      const keysY   = activeBd.screenY - pianoH * 0.6 + pianoH * 0.59;
+      const handX = activeBd.side === 0
+        ? spX - spriteCanvasW * 0.4
+        : spX + spriteCanvasW * 0.4;
+      const handY = spY - spriteCanvasH * 0.5;
+      const grad = ctx.createLinearGradient(handX, handY, keysX + pianoW * 0.5, keysY);
+      grad.addColorStop(0, P.note + '55');
+      grad.addColorStop(1, P.note + '00');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = spriteCanvasH * 0.04;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(handX, handY);
+      ctx.quadraticCurveTo(
+        (handX + keysX + pianoW * 0.5) * 0.5,
+        Math.min(handY, keysY) - spriteCanvasH * 0.1,
+        keysX + pianoW * 0.5, keysY
+      );
+      ctx.stroke();
+      ctx.lineCap = 'butt';
+    }
+
+    // Update & draw floating note particles
+    ctx.font = `${pianistSz * 5}px serif`;
+    noteParticles = noteParticles.filter(n => n.life > 0);
+    for (const n of noteParticles) {
+      n.x += n.vx; n.y += n.vy; n.life -= 0.016;
+      ctx.globalAlpha = n.life * 0.9;
+      ctx.fillStyle = P.note;
+      ctx.fillText(n.sym, n.x, n.y);
+      ctx.globalAlpha = 1;
+    }
+
+    animId = requestAnimationFrame(render);
+  }
+
+  function start() { if (!animId) animId = requestAnimationFrame(render); }
+  function stop()  { if (animId) { cancelAnimationFrame(animId); animId = null; } }
+
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+    docH    = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    start();
+  }, { passive: true });
+  window.addEventListener('resize', () => { resize(); });
+
+  // Dark mode observer
+  const mo = new MutationObserver(() => {
+    isDark = document.getElementById('html-root').classList.contains('dark');
+  });
+  mo.observe(document.getElementById('html-root'), { attributes: true, attributeFilter: ['class'] });
+
+  resize();
+  start();
+})();
+
+/* ============================================================
+   SCROLL ENGINE — HUD, foyer parallax, word reveals, programme dot
+============================================================ */
+(function() {
+  const htmlEl   = document.getElementById('html-root');
+  const foyer    = document.querySelector('.foyer');
+  const foyerName= document.getElementById('foyer-name');
+  const ticket   = document.querySelector('.ticket');
+  const foyerDesc= document.querySelector('.foyer__desc');
+  const foyerDrop= document.querySelector('.foyer__drop');
+  const hudPiece = document.getElementById('hud-piece');
+  const hudTempo = document.getElementById('hud-tempo');
+  const hudMeasure=document.getElementById('hud-measure');
+  const progDot  = document.getElementById('programme-dot');
+  const nowPlaying=document.getElementById('now-playing');
+  const npTitle  = document.getElementById('np-title');
+  const npProg   = document.getElementById('np-progress');
+
+  const SECTIONS = [
+    { id: 'foyer',        label: '🎹',  mapLabel: 'FOYER',        piece: '—',                              tempo: '—',   yr: 2026 },
+    { id: 'programme',   label: '◉',  mapLabel: 'PRELUDE',       piece: 'OPENING NIGHT',                   tempo: 'PRESTO', yr: 2026 },
+    { id: 'performances',label: '🎭', mapLabel: 'PERFORMANCES',  piece: 'CHOPIN — BALLADE OP.23 · NOCTURNE OP.9',  tempo: '♩=104', yr: 2024 },
+    { id: 'compositions',label: '📜', mapLabel: 'COMPOSITIONS',  piece: 'BACH — GOLDBERG BWV 988 · W.T.C. BK.I',  tempo: '♩=76',  yr: 2022 },
+    { id: 'liner-notes', label: '📝', mapLabel: 'LINER NOTES',   piece: 'BACH — GOLDBERG BWV 988 · W.T.C. BK.I',  tempo: '♩=76',  yr: 2022 },
+    { id: 'score',       label: '🎼', mapLabel: 'REPERTOIRE',    piece: 'BEETHOVEN — MOONLIGHT OP.27 · APPASSIONATA OP.57', tempo: '♩=56', yr: 2021 },
+    { id: 'awards',      label: '🏆', mapLabel: 'ACCOLADES',     piece: 'RAVEL — PAVANE · GASPARD DE LA NUIT',     tempo: '♩=54',  yr: 2020 },
+    { id: 'finale',      label: '🎓', mapLabel: 'CONSERVATORY',  piece: 'TCHAIKOVSKY PC.1 · SCHUBERT IMPROMPTU',   tempo: '♩=52',  yr: 2017 },
+  ];
+
+  // Build programme map stops
+  const stopsEl = document.getElementById('programme-stops');
+  const mapLinks = [];
+  SECTIONS.forEach((s, i) => {
+    const percent = (i / (SECTIONS.length - 1)) * 100;
+    const li = document.createElement('li');
+    li.className = 'programme-map__stop';
+    li.style.top = percent + '%';
+    li.innerHTML = `
+      <a class="programme-map__link" href="#${s.id}" aria-label="Go to ${s.mapLabel}">
+        <div class="programme-map__plate">${s.label}</div>
+        <span class="programme-map__label">${s.mapLabel}</span>
+      </a>`;
+    stopsEl.appendChild(li);
+    mapLinks.push(li.querySelector('.programme-map__link'));
+  });
+
+  let currentSectionIdx = 0;
+  let lastShownPiece = '';
+
+  function tick() {
+    const scrollY = window.scrollY;
+    const docH    = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    const vH      = window.innerHeight;
+    const progress= scrollY / docH;
+
+    // Foyer parallax
+    if (foyer) {
+      const foyerH  = foyer.offsetHeight;
+      const p       = Math.min(1, Math.max(0, scrollY / foyerH));
+      foyer.style.setProperty('--p', p.toFixed(4));
+    }
+
+    // Word reveal in line-text
+    document.querySelectorAll('.line-text .w').forEach(w => {
+      const n = parseInt(w.style.getPropertyValue('--n') || '0', 10);
+      const rect = w.closest('.line-text')?.getBoundingClientRect();
+      if (rect) {
+        const r = Math.max(0, (vH - rect.top) / (vH * 0.6));
+        w.style.setProperty('--r', r.toFixed(3));
+      }
+    });
+
+    // Section detection
+    let activeSec = 0;
+    SECTIONS.forEach((s, i) => {
+      const el = document.getElementById(s.id);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vH * 0.5) activeSec = i;
+    });
+
+    // Programme dot movement
+    if (progDot) {
+      const pct = (activeSec / (SECTIONS.length - 1)) * 100;
+      progDot.style.top = pct + '%';
+    }
+
+    // Update active link
+    mapLinks.forEach((l, i) => {
+      l.setAttribute('aria-current', i === activeSec ? 'true' : 'false');
+    });
+
+    // HUD updates (direct DOM, no React rerender)
+    const sec = SECTIONS[activeSec];
+    if (hudPiece)  hudPiece.textContent  = sec.piece;
+    if (hudTempo)  hudTempo.textContent  = sec.tempo;
+    if (hudMeasure) hudMeasure.textContent= Math.round(progress * 240) + '';
+
+    // Show now-playing toast on section change
+    if (activeSec !== currentSectionIdx && sec.piece !== '—') {
+      currentSectionIdx = activeSec;
+      if (npTitle) npTitle.textContent = sec.piece;
+      nowPlaying?.classList.add('visible');
+      clearTimeout(window._npTimeout);
+      window._npTimeout = setTimeout(() => nowPlaying?.classList.remove('visible'), 4000);
+    }
+
+    // Progress bar in now-playing
+    if (npProg) npProg.style.width = (progress * 100).toFixed(1) + '%';
+
+    requestAnimationFrame(tick);
+  }
+
+  // Intersection observer for data-reveal
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.setAttribute('data-revealed', '');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach(el => el.setAttribute('data-revealed', ''));
+  }
+
+  requestAnimationFrame(tick);
+})();
+
+/* ============================================================
+   DARK MODE TOGGLE
+============================================================ */
+(function() {
+  const btn   = document.getElementById('night-toggle');
+  const html  = document.getElementById('html-root');
+
+  // Load saved pref
+  try {
+    if (localStorage.getItem('theme') === 'dark') {
+      html.classList.add('dark');
+      btn.setAttribute('aria-pressed', 'true');
+    }
+  } catch (e) {}
+
+  btn?.addEventListener('click', () => {
+    const on = html.classList.toggle('dark');
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    try { localStorage.setItem('theme', on ? 'dark' : 'light'); } catch(e) {}
+  });
+})();
+
+/* ============================================================
+   AUDIO ENGINE — Web Audio API, looping motifs per section
+   All 10 pieces from about.md, with resume on back-navigation
+============================================================ */
+(function() {
+  const btn   = document.getElementById('audio-toggle');
+  const state = document.getElementById('audio-state');
+  let audioEnabled = false;
+  let audioCtx = null;
+
+  // Per-section state for resume
+  // sectionProgress[id] = elapsed seconds into the loop when we left
+  const sectionProgress = {};
+
+  // Currently active section
+  let activeSectionId = null;
+  let loopTimer = null;        // setTimeout handle for next loop iteration
+  let loopStartCtxTime = null; // audioCtx.currentTime when current loop started
+  let loopStartProgressSec = null; // how many seconds into the phrase we started from
+  let masterGainNode = null;
+
+  // ─── MOTIF LIBRARY ──────────────────────────────────────────
+  // Format: [freq_hz, start_sec, duration_sec, oscillator_type?, volume?]
+  // Each motif has a totalDuration (seconds for one full phrase loop)
+
+  const PIECES = {
+    // ── Chopin Ballade No.1 Op.23 G minor ──
+    // Opening: G-Bb-D-F-G sweep, then the famous Bb major answer phrase
+    'chopin-ballade': {
+      name: 'CHOPIN — BALLADE OP.23',
+      totalDuration: 8.0,
+      notes: [
+        // Upward G minor arpeggio (opening)
+        [196.00, 0.00, 0.35, 'sine', 0.7],   // G3
+        [233.08, 0.40, 0.35, 'sine', 0.7],   // Bb3
+        [293.66, 0.80, 0.35, 'sine', 0.7],   // D4
+        [349.23, 1.20, 0.45, 'sine', 0.8],   // F4
+        [392.00, 1.70, 0.90, 'sine', 1.0],   // G4 (held)
+        // Answering phrase (lyrical)
+        [349.23, 3.00, 0.40, 'triangle', 0.6],
+        [392.00, 3.45, 0.35, 'triangle', 0.6],
+        [440.00, 3.85, 0.55, 'triangle', 0.7],
+        [392.00, 4.50, 0.35, 'triangle', 0.5],
+        [349.23, 4.90, 0.30, 'triangle', 0.5],
+        [329.63, 5.25, 0.35, 'triangle', 0.5],
+        [293.66, 5.65, 0.70, 'sine', 0.7],   // D4 resolve
+        // Bass left hand (G minor chord)
+        [98.00,  0.00, 2.80, 'sine', 0.25],   // G2
+        [196.00, 3.00, 2.80, 'sine', 0.20],   // G3 bass
+      ],
+    },
+
+    // ── Chopin Nocturne Op.9 No.2 E-flat major ──
+    // Singing melody over arpeggiated bass
+    'chopin-nocturne': {
+      name: 'CHOPIN — NOCTURNE OP.9 NO.2',
+      totalDuration: 9.0,
+      notes: [
+        // Melody (E-flat major, singing line)
+        [622.25, 0.00, 0.80, 'sine', 0.8],   // Eb5 (♩)
+        [587.33, 0.90, 0.40, 'sine', 0.7],   // D5
+        [622.25, 1.35, 0.40, 'sine', 0.7],   // Eb5
+        [698.46, 1.80, 1.00, 'sine', 0.9],   // F5 (held)
+        [622.25, 2.90, 0.80, 'sine', 0.8],   // Eb5
+        [554.37, 3.75, 0.40, 'sine', 0.7],   // C#5
+        [493.88, 4.20, 0.40, 'sine', 0.6],   // B4
+        [466.16, 4.65, 1.20, 'sine', 0.8],   // Bb4 (held)
+        [440.00, 5.95, 0.40, 'sine', 0.6],   // A4
+        [466.16, 6.40, 0.40, 'sine', 0.6],   // Bb4
+        [493.88, 6.85, 0.40, 'sine', 0.7],   // B4
+        [522.25, 7.30, 1.40, 'sine', 0.8],   // C5 (resolve)
+        // Arpeggiated bass (Eb-G-Bb)
+        [155.56, 0.00, 0.25, 'triangle', 0.3], // Eb3
+        [196.00, 0.30, 0.25, 'triangle', 0.3], // G3
+        [233.08, 0.60, 0.25, 'triangle', 0.3], // Bb3
+        [155.56, 2.00, 0.25, 'triangle', 0.3],
+        [196.00, 2.30, 0.25, 'triangle', 0.3],
+        [233.08, 2.60, 0.25, 'triangle', 0.3],
+        [155.56, 4.00, 0.25, 'triangle', 0.3],
+        [196.00, 4.30, 0.25, 'triangle', 0.3],
+        [233.08, 4.60, 0.25, 'triangle', 0.3],
+        [155.56, 6.00, 0.25, 'triangle', 0.3],
+        [196.00, 6.30, 0.25, 'triangle', 0.3],
+        [233.08, 6.60, 0.25, 'triangle', 0.3],
+      ],
+    },
+
+    // ── Bach Goldberg Variations BWV 988 (Aria) ──
+    // Opening aria, upper voice melody G major
+    'bach-goldberg': {
+      name: 'BACH — GOLDBERG VARS. BWV 988',
+      totalDuration: 8.0,
+      notes: [
+        // Aria upper voice (G major)
+        [392.00, 0.00, 0.35, 'triangle', 0.8],  // G4
+        [440.00, 0.40, 0.35, 'triangle', 0.7],  // A4
+        [392.00, 0.80, 0.18, 'triangle', 0.6],  // G4
+        [349.23, 1.00, 0.18, 'triangle', 0.6],  // F#4
+        [392.00, 1.20, 0.50, 'triangle', 0.8],  // G4
+        [493.88, 1.80, 0.35, 'triangle', 0.7],  // B4
+        [523.25, 2.20, 0.35, 'triangle', 0.7],  // C5
+        [493.88, 2.60, 0.18, 'triangle', 0.6],  // B4
+        [440.00, 2.82, 0.18, 'triangle', 0.6],  // A4
+        [493.88, 3.05, 0.55, 'triangle', 0.8],  // B4 (held)
+        [392.00, 3.70, 0.35, 'triangle', 0.7],  // G4
+        [440.00, 4.10, 0.35, 'triangle', 0.7],  // A4
+        [493.88, 4.50, 0.35, 'triangle', 0.7],  // B4
+        [523.25, 4.90, 0.35, 'triangle', 0.7],  // C5
+        [587.33, 5.30, 0.45, 'triangle', 0.8],  // D5
+        [493.88, 5.80, 0.35, 'triangle', 0.7],  // B4
+        [440.00, 6.20, 0.35, 'triangle', 0.6],  // A4
+        [392.00, 6.60, 1.20, 'sine', 0.8],      // G4 (resolve)
+        // Bass line (G major)
+        [98.00,  0.00, 0.40, 'sine', 0.25],
+        [110.00, 0.45, 0.40, 'sine', 0.25],
+        [123.47, 0.90, 0.40, 'sine', 0.25],
+        [146.83, 1.40, 0.40, 'sine', 0.25],
+        [164.81, 1.90, 0.40, 'sine', 0.25],
+        [146.83, 2.40, 0.40, 'sine', 0.25],
+        [130.81, 2.90, 0.40, 'sine', 0.25],
+        [98.00,  3.50, 0.80, 'sine', 0.25],
+      ],
+    },
+
+    // ── Bach Well-Tempered Clavier Book I (C major Prelude) ──
+    // Famous arpeggiated C major pattern
+    'bach-wtc': {
+      name: 'BACH — WELL-TEMPERED CLAVIER BK.I',
+      totalDuration: 6.0,
+      notes: (function() {
+        // C major prelude: C-E-G-C-E pattern repeated
+        const pattern = [
+          261.63, 329.63, 392.00, 523.25, 659.26
+        ];
+        const notes = [];
+        for (let rep = 0; rep < 4; rep++) {
+          pattern.forEach((f, i) => {
+            notes.push([f, rep * 1.5 + i * 0.30, 0.28, 'triangle', 0.55]);
+          });
+        }
+        return notes;
+      })(),
+    },
+
+    // ── Beethoven Moonlight Sonata Op.27 No.2 ──
+    // Iconic triplet arpeggios in C# minor
+    'beethoven-moonlight': {
+      name: 'BEETHOVEN — MOONLIGHT OP.27',
+      totalDuration: 7.0,
+      notes: (function() {
+        // C# minor: C#-E-G# triplet pattern, slow
+        const triplet = [277.18, 329.63, 415.30]; // C#4, E4, G#4
+        const melody =  [
+          [493.88, 2.0, 0.8, 'sine', 0.7],  // B4
+          [523.25, 3.0, 0.6, 'sine', 0.7],  // C5
+          [493.88, 3.7, 0.5, 'sine', 0.6],  // B4
+          [440.00, 4.3, 0.5, 'sine', 0.6],  // A4
+          [415.30, 4.9, 0.5, 'sine', 0.6],  // G#4
+          [369.99, 5.5, 1.3, 'sine', 0.7],  // F#4 (resolve)
+        ];
+        const notes = [];
+        // 8 triplet groups at ♩=56 (roughly 1.07s per beat, 0.36s per triplet note)
+        for (let g = 0; g < 7; g++) {
+          triplet.forEach((f, i) => {
+            notes.push([f, g * 1.07 + i * 0.36, 0.32, 'triangle', 0.45]);
+          });
+        }
+        melody.forEach(n => notes.push(n));
+        return notes;
+      })(),
+    },
+
+    // ── Beethoven Appassionata Sonata Op.57 F minor ──
+    // Dramatic opening: F minor descending, stormy
+    'beethoven-appassionata': {
+      name: 'BEETHOVEN — APPASSIONATA OP.57',
+      totalDuration: 7.5,
+      notes: [
+        // F minor descending theme
+        [349.23, 0.00, 0.25, 'sawtooth', 0.7],  // F4
+        [329.63, 0.28, 0.25, 'sawtooth', 0.7],  // E4
+        [311.13, 0.56, 0.25, 'sawtooth', 0.7],  // Eb4
+        [293.66, 0.84, 0.50, 'sawtooth', 0.8],  // D4 (held)
+        [261.63, 1.40, 0.25, 'sawtooth', 0.7],  // C4
+        [233.08, 1.68, 0.25, 'sawtooth', 0.7],  // Bb3
+        [207.65, 1.96, 0.25, 'sawtooth', 0.7],  // Ab3
+        [174.61, 2.24, 0.80, 'sawtooth', 0.8],  // F3 (held, deep)
+        // Thunder chord (F minor)
+        [87.31,  3.20, 0.30, 'sawtooth', 0.5],  // F2
+        [130.81, 3.20, 0.30, 'sawtooth', 0.4],  // C3
+        [174.61, 3.20, 0.30, 'sawtooth', 0.4],  // F3
+        // Repeated dramatic gesture
+        [349.23, 3.70, 0.20, 'triangle', 0.6],
+        [349.23, 3.95, 0.20, 'triangle', 0.6],
+        [349.23, 4.20, 0.20, 'triangle', 0.7],
+        [311.13, 4.50, 0.35, 'triangle', 0.7],  // Eb4
+        [261.63, 4.90, 0.40, 'sine', 0.7],      // C4
+        [233.08, 5.35, 0.40, 'sine', 0.7],      // Bb3
+        [174.61, 5.80, 1.40, 'sine', 0.8],      // F3 resolve
+        // Bass ostinato
+        [87.31,  0.00, 0.15, 'sine', 0.35],
+        [87.31,  0.55, 0.15, 'sine', 0.35],
+        [87.31,  1.10, 0.15, 'sine', 0.35],
+        [87.31,  1.65, 0.15, 'sine', 0.35],
+        [87.31,  2.20, 0.15, 'sine', 0.35],
+      ],
+    },
+
+    // ── Ravel Pavane pour une infante défunte ──
+    // Slow, noble, G major
+    'ravel-pavane': {
+      name: 'RAVEL — PAVANE INFANTE DÉFUNTE',
+      totalDuration: 10.0,
+      notes: [
+        // Opening melody (G major, stately)
+        [392.00, 0.00, 0.90, 'sine', 0.8],   // G4
+        [349.23, 1.00, 0.45, 'sine', 0.7],   // F#4
+        [329.63, 1.50, 0.45, 'sine', 0.7],   // E4
+        [293.66, 2.00, 0.90, 'sine', 0.8],   // D4 (held)
+        [329.63, 3.00, 0.45, 'sine', 0.7],   // E4
+        [349.23, 3.50, 0.45, 'sine', 0.7],   // F#4
+        [392.00, 4.00, 1.20, 'sine', 0.9],   // G4 (held, stately)
+        [440.00, 5.30, 0.45, 'sine', 0.7],   // A4
+        [493.88, 5.80, 0.45, 'sine', 0.7],   // B4
+        [523.25, 6.30, 0.80, 'sine', 0.8],   // C5
+        [493.88, 7.20, 0.45, 'sine', 0.7],   // B4
+        [440.00, 7.70, 0.45, 'sine', 0.7],   // A4
+        [392.00, 8.20, 1.60, 'sine', 0.8],   // G4 (resolve)
+        // Accompaniment (gentle)
+        [196.00, 0.00, 1.80, 'triangle', 0.2],
+        [196.00, 2.00, 1.80, 'triangle', 0.2],
+        [196.00, 4.00, 1.80, 'triangle', 0.2],
+        [196.00, 6.00, 1.80, 'triangle', 0.2],
+      ],
+    },
+
+    // ── Ravel Gaspard de la nuit (Ondine) ──
+    // Shimmering water, rapid arpeggios E major
+    'ravel-gaspard': {
+      name: 'RAVEL — GASPARD DE LA NUIT',
+      totalDuration: 6.0,
+      notes: (function() {
+        // E major shimmering arpeggio (Ondine water effect)
+        const waterPattern = [329.63, 415.30, 493.88, 659.26, 830.61]; // E4-G#4-B4-E5-G#5
+        const notes = [];
+        // Fast, delicate ripple
+        for (let r = 0; r < 5; r++) {
+          waterPattern.forEach((f, i) => {
+            notes.push([f, r * 1.20 + i * 0.12, 0.10, 'sine', 0.35]);
+          });
+          // Add the descent
+          [...waterPattern].reverse().slice(1).forEach((f, i) => {
+            notes.push([f, r * 1.20 + 0.60 + i * 0.12, 0.10, 'sine', 0.25]);
+          });
+        }
+        // Singing melody on top (G#)
+        notes.push([830.61, 0.50, 0.50, 'sine', 0.6]);
+        notes.push([880.00, 1.80, 0.50, 'sine', 0.6]);
+        notes.push([987.77, 3.10, 0.50, 'sine', 0.6]);
+        notes.push([880.00, 4.40, 0.50, 'sine', 0.6]);
+        notes.push([830.61, 5.50, 0.45, 'sine', 0.6]);
+        return notes;
+      })(),
+    },
+
+    // ── Tchaikovsky Piano Concerto No.1 Op.23 Bb minor ──
+    // Iconic sweeping opening theme
+    'tchaikovsky-pc1': {
+      name: 'TCHAIKOVSKY — PIANO CONCERTO NO.1',
+      totalDuration: 8.0,
+      notes: [
+        // Heroic opening theme (Db major, the famous melody)
+        [277.18, 0.00, 0.50, 'sine', 0.9],   // Db4
+        [311.13, 0.55, 0.30, 'sine', 0.8],   // Eb4
+        [349.23, 0.90, 0.30, 'sine', 0.8],   // F4
+        [370.00, 1.25, 0.30, 'sine', 0.8],   // F#4
+        [415.30, 1.60, 0.80, 'sine', 0.9],   // Ab4 (held)
+        [369.99, 2.50, 0.30, 'sine', 0.7],   // F#4
+        [415.30, 2.85, 0.30, 'sine', 0.7],   // Ab4
+        [466.16, 3.20, 0.30, 'sine', 0.7],   // Bb4
+        [554.37, 3.55, 0.80, 'sine', 0.9],   // Db5 (peak)
+        [523.25, 4.45, 0.30, 'sine', 0.7],   // C5
+        [493.88, 4.80, 0.30, 'sine', 0.7],   // B4
+        [466.16, 5.15, 0.30, 'sine', 0.7],   // Bb4
+        [440.00, 5.50, 0.35, 'sine', 0.7],   // A4
+        [415.30, 5.90, 0.35, 'sine', 0.7],   // Ab4
+        [369.99, 6.30, 1.50, 'sine', 0.8],   // F#4 (resolve)
+        // Sweeping bass chords (Bb minor, Db major alternating)
+        [116.54, 0.00, 0.45, 'triangle', 0.3], // Bb2
+        [138.59, 0.00, 0.45, 'triangle', 0.2], // Db3
+        [174.61, 0.00, 0.45, 'triangle', 0.2], // F3
+        [138.59, 2.00, 0.45, 'triangle', 0.3], // Db3
+        [164.81, 2.00, 0.45, 'triangle', 0.2], // E3
+        [207.65, 2.00, 0.45, 'triangle', 0.2], // Ab3
+        [116.54, 4.00, 0.45, 'triangle', 0.3],
+        [138.59, 4.00, 0.45, 'triangle', 0.2],
+        [174.61, 4.00, 0.45, 'triangle', 0.2],
+      ],
+    },
+
+    // ── Schubert Impromptu Op.90 No.3 G-flat major ──
+    // Flowing triplet melody, lyrical
+    'schubert-impromptu': {
+      name: 'SCHUBERT — IMPROMPTU OP.90 NO.3',
+      totalDuration: 8.0,
+      notes: [
+        // Gb major melody (lyrical, flowing)
+        [369.99, 0.00, 0.55, 'sine', 0.8],   // F#4 (=Gb4)
+        [415.30, 0.60, 0.55, 'sine', 0.8],   // Ab4
+        [466.16, 1.20, 0.55, 'sine', 0.8],   // Bb4
+        [554.37, 1.80, 1.10, 'sine', 0.9],   // Db5 (held)
+        [523.25, 3.00, 0.40, 'sine', 0.7],   // C5
+        [493.88, 3.45, 0.40, 'sine', 0.7],   // B4
+        [466.16, 3.90, 0.40, 'sine', 0.7],   // Bb4
+        [440.00, 4.35, 0.40, 'sine', 0.7],   // A4
+        [415.30, 4.80, 0.55, 'sine', 0.8],   // Ab4
+        [369.99, 5.40, 0.55, 'sine', 0.8],   // Gb4
+        [329.63, 6.00, 0.55, 'sine', 0.7],   // E4
+        [277.18, 6.60, 1.20, 'sine', 0.8],   // Db4 (resolve)
+        // Flowing triplet accompaniment (Gb-Bb-Db)
+        [185.00, 0.00, 0.20, 'triangle', 0.25],
+        [233.08, 0.22, 0.20, 'triangle', 0.20],
+        [277.18, 0.44, 0.20, 'triangle', 0.20],
+        [185.00, 0.66, 0.20, 'triangle', 0.25],
+        [233.08, 0.88, 0.20, 'triangle', 0.20],
+        [277.18, 1.10, 0.20, 'triangle', 0.20],
+        [185.00, 1.32, 0.20, 'triangle', 0.25],
+        [233.08, 1.54, 0.20, 'triangle', 0.20],
+        [277.18, 1.76, 0.20, 'triangle', 0.20],
+        [185.00, 2.00, 0.20, 'triangle', 0.25],
+        [233.08, 2.22, 0.20, 'triangle', 0.20],
+        [277.18, 2.44, 0.20, 'triangle', 0.20],
+        [185.00, 3.00, 0.20, 'triangle', 0.25],
+        [233.08, 3.22, 0.20, 'triangle', 0.20],
+        [277.18, 3.44, 0.20, 'triangle', 0.20],
+        [185.00, 4.00, 0.20, 'triangle', 0.25],
+        [233.08, 4.22, 0.20, 'triangle', 0.20],
+        [277.18, 4.44, 0.20, 'triangle', 0.20],
+        [185.00, 5.00, 0.20, 'triangle', 0.25],
+        [233.08, 5.22, 0.20, 'triangle', 0.20],
+        [277.18, 5.44, 0.20, 'triangle', 0.20],
+        [185.00, 6.00, 0.20, 'triangle', 0.25],
+        [233.08, 6.22, 0.20, 'triangle', 0.20],
+        [277.18, 6.44, 0.20, 'triangle', 0.20],
+      ],
+    },
+  };
+
+  // Map section IDs to which pieces to cycle through
+  // Each section rotates through its pieces list
+  const SECTION_PIECES = {
+    'performances': ['chopin-ballade', 'chopin-nocturne'],
+    'compositions': ['bach-goldberg', 'bach-wtc'],
+    'liner-notes':  ['bach-goldberg', 'bach-wtc'],
+    'score':        ['beethoven-moonlight', 'beethoven-appassionata'],
+    'awards':       ['ravel-pavane', 'ravel-gaspard'],
+    'finale':       ['tchaikovsky-pc1', 'schubert-impromptu'],
+  };
+
+  // Track which piece index each section is on (for cycling)
+  const sectionPieceIndex = {};
+
+  function getCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function stopLoop() {
+    if (loopTimer) { clearTimeout(loopTimer); loopTimer = null; }
+    if (masterGainNode) {
+      try {
+        const ctx = getCtx();
+        masterGainNode.gain.cancelScheduledValues(ctx.currentTime);
+        masterGainNode.gain.setValueAtTime(masterGainNode.gain.value, ctx.currentTime);
+        masterGainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+      } catch(e) {}
+      masterGainNode = null;
+    }
+    loopStartCtxTime = null;
+    loopStartProgressSec = null;
+  }
+
+  function schedulePiece(pieceKey, startOffsetSec, gainNode) {
+    const piece = PIECES[pieceKey];
+    if (!piece) return;
+    const ctx = getCtx();
+    const now = ctx.currentTime;
+
+    piece.notes.forEach(([freq, t, dur, oscType, vol]) => {
+      // Shift by startOffset — only schedule notes that haven't passed yet
+      const noteStartInPhrase = t;
+      if (noteStartInPhrase < startOffsetSec - 0.05) return; // skip already-played notes
+      const scheduledAt = now + (noteStartInPhrase - startOffsetSec);
+      if (scheduledAt < now - 0.01) return; // skip notes in the past
+
+      const osc = ctx.createOscillator();
+      const noteGain = ctx.createGain();
+      osc.type = (oscType || 'sine');
+      osc.frequency.setValueAtTime(freq, scheduledAt);
+      noteGain.gain.setValueAtTime(0.0001, scheduledAt);
+      noteGain.gain.linearRampToValueAtTime(vol * 0.12, scheduledAt + 0.04);
+      noteGain.gain.exponentialRampToValueAtTime(0.0001, scheduledAt + dur + 0.05);
+      osc.connect(noteGain);
+      noteGain.connect(gainNode);
+      osc.start(scheduledAt);
+      osc.stop(scheduledAt + dur + 0.15);
+    });
+  }
+
+  function startSectionLoop(sectionId, resumeProgressSec) {
+    if (!audioEnabled) return;
+    activeSectionId = sectionId;
+    const pieceKeys = SECTION_PIECES[sectionId];
+    if (!pieceKeys) return;
+
+    // Which piece in the cycle?
+    if (!(sectionId in sectionPieceIndex)) sectionPieceIndex[sectionId] = 0;
+    const pieceKey = pieceKeys[sectionPieceIndex[sectionId] % pieceKeys.length];
+    const piece = PIECES[pieceKey];
+    if (!piece) return;
+
+    const ctx = getCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+
+    stopLoop();
+
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(0.9, ctx.currentTime + 0.7);
+    master.connect(ctx.destination);
+    masterGainNode = master;
+
+    const startOffset = (resumeProgressSec !== undefined && resumeProgressSec !== null)
+      ? (resumeProgressSec % piece.totalDuration)
+      : (sectionProgress[sectionId] || 0);
+
+    loopStartCtxTime = ctx.currentTime;
+    loopStartProgressSec = startOffset;
+
+    schedulePiece(pieceKey, startOffset, master);
+
+    // Schedule the loop restart
+    const remainingTime = (piece.totalDuration - startOffset) * 1000;
+    loopTimer = setTimeout(() => {
+      if (activeSectionId !== sectionId || !audioEnabled) return;
+      // Advance piece index for cycling to next piece on loop
+      sectionPieceIndex[sectionId] = (sectionPieceIndex[sectionId] + 1) % pieceKeys.length;
+      sectionProgress[sectionId] = 0;
+      startSectionLoop(sectionId, 0);
+    }, Math.max(remainingTime, 100));
+  }
+
+  function pauseCurrentSection() {
+    if (!activeSectionId || loopStartCtxTime === null) return;
+    try {
+      const ctx = getCtx();
+      const elapsed = (ctx.currentTime - loopStartCtxTime) + (loopStartProgressSec || 0);
+      const pieceKeys = SECTION_PIECES[activeSectionId];
+      if (pieceKeys) {
+        const pieceKey = pieceKeys[(sectionPieceIndex[activeSectionId] || 0) % pieceKeys.length];
+        const piece = PIECES[pieceKey];
+        if (piece) sectionProgress[activeSectionId] = elapsed % piece.totalDuration;
+      }
+    } catch(e) {}
+  }
+
+  // ─── Section change detection ────────────────────────────────
+  let lastSection = '';
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.target.id !== lastSection) {
+        if (lastSection) pauseCurrentSection();
+        lastSection = e.target.id;
+        stopLoop();
+        startSectionLoop(e.target.id);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  ['performances', 'compositions', 'liner-notes', 'score', 'awards', 'finale'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // ─── Audio toggle button ─────────────────────────────────────
+  btn?.addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    if (state) state.textContent = audioEnabled ? 'ON' : 'OFF';
+    btn.setAttribute('aria-pressed', audioEnabled ? 'true' : 'false');
+    if (!audioEnabled) {
+      pauseCurrentSection();
+      stopLoop();
+    } else if (lastSection) {
+      startSectionLoop(lastSection);
+    }
+  });
+})();
+</script>
+</body>
+</html>
