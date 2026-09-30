@@ -1048,9 +1048,9 @@
               </div>
               <div class="perf__right">
                 <ul class="perf__points">
-                  <li>Architected <strong>Intuit Assist</strong> (Patented): secure multi-agentic LLM system with RAG + finetuned SLM tool calling for tax Q&amp;A and automated resolution across TurboTax, QuickBooks, and Credit Karma.</li>
+                  <li>Architected <strong>Intuit Assist</strong> (Patented): secure multi-agentic LLM system with RAG + finetuned SLM tool calling for tax Q&amp;A and automated resolution across TurboTax and QuickBooks. Built accounting RL environments and benchmarks to post-train LLMs (Qwen3) to match frontier models at lower cost and latency.</li>
                   <li>Designed and shipped the <strong>first MCP implementation at Intuit</strong> — now core to the Intuit × Anthropic partnership. Serves 100M+ customers; reduced customer serving time by 30%, increased response rate by 40%.</li>
-                  <li>Shipped product recommendation engine using deep-learning <strong>twin-tower architecture</strong> (multimillion-dollar upsell conversions). Built sales pitching agent with constrained-decoding guardrails and GRPO/RLVR rollouts.</li>
+                  <li>Shipped <strong>Agentic Upsell System</strong>: deep-learning twin-tower product recommendation engine (multimillion-dollar impact). Built sales pitching LLM via synthetic expert data with constrained-decoding guardrails and SFT + RL post-training.</li>
                 </ul>
               </div>
             </div>
@@ -1165,12 +1165,12 @@
 
         <article class="composition brut-card" data-reveal>
           <div class="composition__bar">
-            <span>arXiv 2026</span>
+            <span>RLC 2025</span>
             <span class="composition__venue">LLM Safety / Reasoning</span>
           </div>
           <div class="composition__body">
             <h3 class="composition__title">Drop the Act: Probe-Filtered RL for Faithful Chain-of-Thought Reasoning</h3>
-            <p class="composition__desc">Uses linear probes to detect when a model's chain-of-thought diverges from its internal beliefs, filtering training signal to steer RL toward genuinely faithful reasoning rather than post-hoc rationalization.</p>
+            <p class="composition__desc">Uses linear probes to detect when a model's chain-of-thought diverges from its internal beliefs, filtering training signal to steer RL toward genuinely faithful reasoning. Achieves 20% shorter chains with equal accuracy.</p>
             <ul class="chips"><li class="chip">Chain-of-Thought</li><li class="chip">RL</li><li class="chip">Faithfulness</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=Drop+the+Act+Probe+Filtered+RL+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
@@ -1178,21 +1178,60 @@
 
         <article class="composition brut-card" data-reveal>
           <div class="composition__bar">
-            <span>arXiv 2026</span>
+            <span>ICML 2025</span>
             <span class="composition__venue">LLM Security</span>
           </div>
           <div class="composition__body">
             <h3 class="composition__title">CANARY: Zero-Label Detection of Fine-Tuning Contamination in Language Models</h3>
-            <p class="composition__desc">Detects when a language model has been fine-tuned on contaminated or poisoned data without requiring any labeled examples — using statistical canaries embedded in the pretraining distribution.</p>
-            <ul class="chips"><li class="chip">Fine-Tuning</li><li class="chip">Contamination</li><li class="chip">Detection</li></ul>
+            <p class="composition__desc">Detects when a language model has been fine-tuned on contaminated or poisoned data without any labeled examples — using hidden-state SAE filtering. Catches as little as 1% fine-tuning contamination.</p>
+            <ul class="chips"><li class="chip">Fine-Tuning</li><li class="chip">Contamination</li><li class="chip">SAE</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=CANARY+Fine-Tuning+Contamination+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
         </article>
 
         <article class="composition brut-card" data-reveal>
           <div class="composition__bar">
-            <span>arXiv 2026</span>
-            <span class="composition__venue">Speech / ASR</span>
+            <span>ECML-PKDD 2025</span>
+            <span class="composition__venue">Agentic Systems</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">DynaPitch: Two-Stage Framework for Dynamic Script Generation in Agent-Assisted Sales</h3>
+            <p class="composition__desc">Fine-tuned SLM generation with a two-stage agent-assist framework for adaptive conversation support in sales. Enables real-time script generation that adapts to conversation dynamics.</p>
+            <ul class="chips"><li class="chip">Agents</li><li class="chip">SLM</li><li class="chip">Conversation</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=DynaPitch+Dynamic+Script+Generation+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>ICML 2024</span>
+            <span class="composition__venue">Mechanistic Interpretability</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">CIRCUS: Circuit Consensus under Uncertainty via Stability Ensembles</h3>
+            <p class="composition__desc">Uncertainty-aware circuit discovery producing ~40× smaller consensus circuits; validated on Gemma-2 &amp; Llama-3.2. Makes mechanistic interpretability analysis reproducible and robust to analyst choice.</p>
+            <ul class="chips"><li class="chip">Circuits</li><li class="chip">Interpretability</li><li class="chip">Ensembles</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=CIRCUS+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>COLM 2024</span>
+            <span class="composition__venue">Adversarial Robustness</span>
+          </div>
+          <div class="composition__body">
+            <h3 class="composition__title">Thinking Wrong in Silence: Backdoor Attacks on Latent Reasoning</h3>
+            <p class="composition__desc">Discovers a fundamentally new attack surface for latent reasoning models — backdoors injected into the continuous reasoning chain, hijacking the model's trajectory before a single visible token is generated.</p>
+            <ul class="chips"><li class="chip">Backdoor</li><li class="chip">Latent Reasoning</li><li class="chip">LLM Safety</li></ul>
+            <a class="brut-btn" href="https://arxiv.org/search/?query=Thinking+Wrong+Silence+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
+          </div>
+        </article>
+
+        <article class="composition brut-card" data-reveal>
+          <div class="composition__bar">
+            <span>Interspeech 2024</span>
+            <span class="composition__venue">Speech / ASR Fairness</span>
           </div>
           <div class="composition__body">
             <h3 class="composition__title">ACES: Accent Subspaces for Coupling, Explanations, and Stress-Testing in ASR</h3>
@@ -1204,51 +1243,12 @@
 
         <article class="composition brut-card" data-reveal>
           <div class="composition__bar">
-            <span>arXiv 2026</span>
-            <span class="composition__venue">Recommender Systems</span>
-          </div>
-          <div class="composition__body">
-            <h3 class="composition__title">From Gradient-Boosted Trees to Deep Recommenders: Closing the Gap with Tabular Transformers</h3>
-            <p class="composition__desc">Bridges the performance gap between gradient-boosted tree models and deep recommender systems by adapting tabular transformer architectures to structured recommendation data.</p>
-            <ul class="chips"><li class="chip">Recommenders</li><li class="chip">Transformers</li><li class="chip">Tabular Data</li></ul>
-            <a class="brut-btn" href="https://arxiv.org/search/?query=Gradient+Boosted+Trees+Deep+Recommenders+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
-          </div>
-        </article>
-
-        <article class="composition brut-card" data-reveal>
-          <div class="composition__bar">
-            <span>arXiv 2026</span>
-            <span class="composition__venue">Mechanistic Interpretability</span>
-          </div>
-          <div class="composition__body">
-            <h3 class="composition__title">CIRCUS: Circuit Consensus under Uncertainty via Stability Ensembles</h3>
-            <p class="composition__desc">Uncertainty-aware circuit discovery producing ~40× smaller consensus circuits; validated on Gemma-2 &amp; Llama-3.2. Makes mechanistic interpretability analysis reproducible and robust.</p>
-            <ul class="chips"><li class="chip">Circuits</li><li class="chip">Interpretability</li><li class="chip">Ensembles</li></ul>
-            <a class="brut-btn" href="https://arxiv.org/search/?query=CIRCUS+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
-          </div>
-        </article>
-
-        <article class="composition brut-card" data-reveal>
-          <div class="composition__bar">
-            <span>arXiv 2026</span>
-            <span class="composition__venue">Adversarial Robustness</span>
-          </div>
-          <div class="composition__body">
-            <h3 class="composition__title">Thinking Wrong in Silence: Backdoor Attacks on Continuous Latent Reasoning</h3>
-            <p class="composition__desc">Discovers a fundamentally new attack surface for latent reasoning models — backdoors injected into the continuous reasoning chain, invisible to output monitors.</p>
-            <ul class="chips"><li class="chip">Backdoor</li><li class="chip">Latent Reasoning</li><li class="chip">LLM Safety</li></ul>
-            <a class="brut-btn" href="https://arxiv.org/search/?query=Thinking+Wrong+Silence+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
-          </div>
-        </article>
-
-        <article class="composition brut-card" data-reveal>
-          <div class="composition__bar">
-            <span>IntelliSys (Springer) 2026</span>
+            <span>IntelliSys (Springer) 2025</span>
             <span class="composition__venue">Multimodal Safety</span>
           </div>
           <div class="composition__body">
             <h3 class="composition__title">CaptionFool: Universal Image Captioning Model Attacks</h3>
-            <p class="composition__desc">94–96% targeted attack success by modifying only 1.2% of image patches; evades content moderation. Demonstrates fragility of deployed captioning systems.</p>
+            <p class="composition__desc">94–96% targeted attack success by modifying only 1.2% of image patches; evades content moderation. Demonstrates fragility of deployed captioning systems at scale.</p>
             <ul class="chips"><li class="chip">Adversarial Patches</li><li class="chip">VLM</li><li class="chip">Content Moderation</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=CaptionFool+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
@@ -1256,12 +1256,12 @@
 
         <article class="composition brut-card" data-reveal>
           <div class="composition__bar">
-            <span>AAAI 2022</span>
+            <span>AAAI 2023</span>
             <span class="composition__venue">Universal Adversarial Triggers</span>
           </div>
           <div class="composition__body">
             <h3 class="composition__title">MINIMAL: Mining Models for Universal Adversarial Triggers</h3>
-            <p class="composition__desc">Data-free universal adversarial triggers that match data-dependent baselines by mining model internals — enabling trigger attacks without access to training data.</p>
+            <p class="composition__desc">Data-free universal adversarial triggers that match data-dependent baselines by mining model internals — enabling trigger attacks without any access to training data.</p>
             <ul class="chips"><li class="chip">UAT</li><li class="chip">Data-Free</li><li class="chip">AAAI</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=MINIMAL+Parekh+Universal+Adversarial" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
@@ -1274,7 +1274,7 @@
           </div>
           <div class="composition__body">
             <h3 class="composition__title">AES Systems Are Both Overstable And Oversensitive: Evals &amp; Defenses</h3>
-            <p class="composition__desc">Automated Essay Scoring systems fail in two opposite ways simultaneously — rigidly stable to adversarial content but hypersensitive to benign paraphrases. Proposes defenses.</p>
+            <p class="composition__desc">Automated Essay Scoring systems fail in two opposite ways simultaneously — rigidly stable to adversarial content but hypersensitive to benign paraphrases. Proposes targeted defenses for each failure mode.</p>
             <ul class="chips"><li class="chip">AES</li><li class="chip">Robustness</li><li class="chip">Evaluation</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=AES+Overstable+Oversensitive+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
@@ -1287,7 +1287,7 @@
           </div>
           <div class="composition__body">
             <h3 class="composition__title">Attacking Compressed Vision Transformers</h3>
-            <p class="composition__desc">Shows that quantized and pruned Vision Transformers inherit and amplify adversarial vulnerabilities — compressed models are not more robust, they are differently brittle.</p>
+            <p class="composition__desc">Shows that quantized and pruned Vision Transformers inherit and amplify adversarial vulnerabilities — compressed models are not more robust, they are differently brittle. Adversarially resilient heads are removed first during pruning.</p>
             <ul class="chips"><li class="chip">ViT</li><li class="chip">Compression</li><li class="chip">Adversarial</li></ul>
             <a class="brut-btn" href="https://arxiv.org/search/?query=Attacking+Compressed+Vision+Transformers+Parekh" target="_blank" rel="noopener">↗ PAPER</a>
           </div>
