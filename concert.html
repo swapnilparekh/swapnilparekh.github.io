@@ -1670,7 +1670,8 @@
       keys:     dark ? '#f5f0e8' : '#f5f0e8',
       blackKey: dark ? '#0d0d0d' : '#0d0d0d',
       legs:     dark ? '#0d0d0d' : '#0d0d0d',
-      figure:   dark ? '#c8933a' : '#c8933a',
+      figure:       dark ? '#1e2a3a' : '#1e2a3a',  // dark navy suit
+      figureMid:    dark ? '#263347' : '#263347',  // suit mid-tone
       figureShadow: dark ? '#f5f0e8' : '#0d0d0d',
       note:     dark ? '#c8933a' : '#c8933a',
       beam:     dark ? '#c8933a55' : '#c8933a33',
@@ -1793,8 +1794,8 @@
   // ── Pixel-art pianist sprite ──────────────────────────────────────────────
   // Each frame is a 12×20 grid.  Pixel codes:
   //   0 = transparent   1 = outline/dark  2 = skin   3 = hair
-  //   4 = suit body     5 = suit highlight 6 = shoes  7 = shirt-white
-  //   8 = stool         9 = hand-highlight
+  //   4 = suit body     5 = suit lapel/highlight  6 = shoes  7 = shirt-white
+  //   8 = stool         9 = hand-highlight  A(10) = tie
   // Coordinate origin (x,y) passed to drawPianist is the BOTTOM-CENTER of the sprite.
 
   const SPRITE_W = 12, SPRITE_H = 20;
@@ -1803,15 +1804,15 @@
   const WALK = [
     // Frame 0 — mid-stride right
     [
-      [0,0,0,0,1,1,1,1,0,0,0,0], // row 0  (top = head)
+      [0,0,0,0,1,1,1,1,0,0,0,0], // row 0  head
       [0,0,0,1,2,2,2,2,1,0,0,0], // row 1
       [0,0,0,1,2,3,3,2,1,0,0,0], // row 2  hair
       [0,0,0,1,3,3,3,3,1,0,0,0], // row 3  hair
       [0,0,0,0,1,2,2,1,0,0,0,0], // row 4  neck
       [0,0,1,1,7,7,7,7,1,1,0,0], // row 5  collar / shirt
-      [0,1,4,4,4,4,4,4,4,4,1,0], // row 6  shoulders
-      [0,1,4,5,4,4,4,5,4,4,1,0], // row 7  chest
-      [0,1,4,4,4,4,4,4,4,4,1,0], // row 8  torso
+      [0,1,4,5,7,10,7,5,4,4,1,0], // row 6  lapels + tie
+      [0,1,4,4,7,10,7,4,4,4,1,0], // row 7  chest + tie
+      [0,1,4,4,4,10,4,4,4,4,1,0], // row 8  torso + tie
       [0,1,4,4,4,4,4,4,4,4,1,0], // row 9  torso
       [0,1,9,4,4,4,4,4,9,4,1,0], // row 10 arms out
       [0,0,1,4,4,4,4,4,1,0,0,0], // row 11 arms mid
@@ -1822,7 +1823,7 @@
       [0,1,4,4,0,1,4,0,4,1,0,0], // row 16 knee
       [0,0,1,4,1,0,4,0,1,0,0,0], // row 17 shin
       [0,0,1,6,6,0,6,6,1,0,0,0], // row 18 shoes
-      [0,0,0,1,1,0,1,1,0,0,0,0], // row 19 (bottom)
+      [0,0,0,1,1,0,1,1,0,0,0,0], // row 19 bottom
     ],
     // Frame 1 — feet together (contact)
     [
@@ -1832,11 +1833,11 @@
       [0,0,0,1,3,3,3,3,1,0,0,0],
       [0,0,0,0,1,2,2,1,0,0,0,0],
       [0,0,1,1,7,7,7,7,1,1,0,0],
+      [0,1,4,5,7,10,7,5,4,4,1,0],
+      [0,1,4,4,7,10,7,4,4,4,1,0],
+      [0,1,4,4,4,10,4,4,4,4,1,0],
       [0,1,4,4,4,4,4,4,4,4,1,0],
-      [0,1,4,5,4,4,4,5,4,4,1,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
-      [1,4,9,4,4,4,4,4,4,9,4,1], // arms low
+      [1,4,9,4,4,4,4,4,4,9,4,1],
       [0,1,4,4,4,4,4,4,4,1,0,0],
       [0,0,0,1,4,4,4,1,0,0,0,0],
       [0,0,1,4,4,0,4,4,1,0,0,0],
@@ -1855,22 +1856,22 @@
       [0,0,0,1,3,3,3,3,1,0,0,0],
       [0,0,0,0,1,2,2,1,0,0,0,0],
       [0,0,1,1,7,7,7,7,1,1,0,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
-      [0,1,4,5,4,4,4,5,4,4,1,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,5,7,10,7,5,4,4,1,0],
+      [0,1,4,4,7,10,7,4,4,4,1,0],
+      [0,1,4,4,4,10,4,4,4,4,1,0],
       [0,1,4,4,4,4,4,4,4,4,1,0],
       [0,1,9,4,4,4,4,4,9,4,1,0],
       [0,0,1,4,4,4,4,4,1,0,0,0],
       [0,0,0,1,4,4,4,1,0,0,0,0],
       [0,0,0,1,4,4,0,4,1,0,0,0],
-      [0,0,1,4,4,0,0,4,4,1,0,0], // opposite leg fwd
+      [0,0,1,4,4,0,0,4,4,1,0,0],
       [0,0,1,4,4,1,0,4,4,1,0,0],
       [0,0,1,4,0,4,1,4,4,1,0,0],
       [0,0,0,1,0,4,1,4,1,0,0,0],
       [0,0,0,1,6,6,1,6,6,1,0,0],
       [0,0,0,0,1,1,0,1,1,0,0,0],
     ],
-    // Frame 3 — feet together again (for smooth loop: 0-1-2-1 cycle)
+    // Frame 3 — feet together again
     [
       [0,0,0,0,1,1,1,1,0,0,0,0],
       [0,0,0,1,2,2,2,2,1,0,0,0],
@@ -1878,9 +1879,9 @@
       [0,0,0,1,3,3,3,3,1,0,0,0],
       [0,0,0,0,1,2,2,1,0,0,0,0],
       [0,0,1,1,7,7,7,7,1,1,0,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
-      [0,1,4,5,4,4,4,5,4,4,1,0],
-      [0,1,4,4,4,4,4,4,4,4,1,0],
+      [0,1,4,5,7,10,7,5,4,4,1,0],
+      [0,1,4,4,7,10,7,4,4,4,1,0],
+      [0,1,4,4,4,10,4,4,4,4,1,0],
       [0,1,4,4,4,4,4,4,4,4,1,0],
       [1,4,9,4,4,4,4,4,4,9,4,1],
       [0,1,4,4,4,4,4,4,4,1,0,0],
@@ -1903,9 +1904,9 @@
     [0,0,0,1,3,3,3,3,1,0,0,0],
     [0,0,0,0,1,2,2,1,0,0,0,0],
     [0,0,1,1,7,7,7,7,1,1,0,0],
-    [0,1,4,4,4,4,4,4,4,4,1,0],
-    [0,1,4,5,4,4,4,5,4,4,1,0],
-    [0,1,4,4,4,4,4,4,4,4,1,0],
+    [0,1,4,5,7,10,7,5,4,4,1,0], // lapels + tie
+    [0,1,4,4,7,10,7,4,4,4,1,0], // chest + tie
+    [0,1,4,4,4,10,4,4,4,4,1,0], // torso + tie
     [0,1,4,4,4,4,4,4,4,4,1,0],
     [1,9,9,9,4,4,4,4,9,9,9,1], // arms extended forward
     [0,0,0,0,1,4,4,1,0,0,0,0],
@@ -1919,28 +1920,28 @@
     [0,0,0,1,1,0,0,1,1,0,0,0],
   ];
 
-  // Bow pose (standing, leaning forward)
+  // Bow pose — deep forward bow: body bent at waist ~60°, head down, arm sweeping back
   const SPRITE_BOW = [
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,1,1,1,0,0,0,0],
-    [0,0,0,0,1,2,2,2,1,0,0,0],
-    [0,0,0,0,1,2,3,2,1,0,0,0],
-    [0,0,0,0,1,3,3,2,1,0,0,0],
-    [0,0,0,0,0,1,2,1,0,0,0,0],
-    [0,0,0,1,1,7,7,4,4,1,0,0], // torso leaned forward
-    [0,0,1,4,4,4,4,4,4,4,1,0],
-    [0,1,4,4,5,4,4,5,4,4,1,0],
-    [1,9,9,4,4,4,4,4,4,4,1,0], // arm sweeping out
-    [0,1,4,4,4,4,4,4,1,0,0,0],
-    [0,0,1,4,4,4,4,1,0,0,0,0],
-    [0,0,0,1,4,4,4,4,1,0,0,0],
-    [0,0,0,1,4,4,4,4,1,0,0,0],
-    [0,0,0,1,4,4,4,4,1,0,0,0],
-    [0,0,0,1,4,4,4,4,1,0,0,0],
-    [0,0,0,1,4,4,4,4,1,0,0,0],
-    [0,0,0,1,6,6,6,6,1,0,0,0],
-    [0,0,0,0,1,1,1,1,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0], // row 0  (empty — figure is low/bowed)
+    [0,0,0,0,0,0,0,0,0,0,0,0], // row 1
+    [0,0,0,0,0,0,0,0,0,0,0,0], // row 2
+    [0,0,0,0,0,0,0,0,0,0,0,0], // row 3  head hangs forward/down
+    [0,0,0,0,0,1,1,1,0,0,0,0], // row 4  top of bowed head (far left)
+    [0,0,0,0,1,2,2,2,1,0,0,0], // row 5
+    [0,0,0,0,1,3,3,2,1,0,0,0], // row 6  head facing down-left
+    [0,0,0,0,1,2,2,1,0,0,0,0], // row 7  chin tucked
+    [0,0,0,1,7,7,4,4,4,1,0,0], // row 8  neck + upper back (horizontal)
+    [0,0,1,4,4,4,4,4,4,4,1,0], // row 9  back — body bent horizontal
+    [0,1,4,4,5,4,4,4,4,4,4,1], // row 10 back (wide) with lapel glimpse
+    [0,1,4,4,4,4,4,4,4,1,0,0], // row 11 arm sweeping out behind
+    [1,9,9,9,9,4,1,0,0,0,0,0], // row 12 arm extended dramatically back
+    [0,0,0,1,4,4,4,4,1,0,0,0], // row 13 waist / pivot point
+    [0,0,0,1,4,4,4,4,1,0,0,0], // row 14 hip-to-legs (still upright from waist down)
+    [0,0,0,1,4,4,4,4,1,0,0,0], // row 15 thighs
+    [0,0,0,1,4,4,4,4,1,0,0,0], // row 16 knees (straight)
+    [0,0,0,1,4,4,4,4,1,0,0,0], // row 17 shins
+    [0,0,0,1,6,6,6,6,1,0,0,0], // row 18 feet / shoes
+    [0,0,0,0,1,1,1,1,0,0,0,0], // row 19 floor line
   ];
 
   // Pixel color resolver — returns CSS color string for each code
@@ -1951,11 +1952,12 @@
       case 2: return '#f5c9a0';         // skin
       case 3: return '#2a1a0e';         // dark hair
       case 4: return P.figure;          // suit body
-      case 5: return P.pianoHi;         // suit highlight
+      case 5: return P.figureMid;       // suit lapel highlight
       case 6: return '#1a1a1a';         // shoes
       case 7: return '#f0ede8';         // shirt white
       case 8: return '#3d2b1a';         // stool
       case 9: return '#e8c990';         // hand highlight
+      case 10: return '#c9a84c';        // tie (gold)
       default: return null;
     }
   }
@@ -2196,12 +2198,9 @@
     drawPianist(spX, spY, pianistSz, spPose, P);
     ctx.globalAlpha = 1;
 
-    // Floating notes — when sitting at piano, or when bowing at say-hi
+    // Floating notes — only when sitting at piano
     if (isSitting && Math.random() < 0.12) {
       spawnNote(spX, spY - spriteCanvasH * 0.55);
-    }
-    if (sayHiVisible && spPose === 'bow' && Math.random() < 0.07) {
-      spawnNote(spX, spY - spriteCanvasH * 0.7);
     }
 
     // Soft glow connecting hands to keys — only when sitting at piano
